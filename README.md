@@ -4,6 +4,15 @@
 
 [✨ Try the live demo, 👩‍💻 Start free trial, 👋 Get in touch on our website](https://handsontable.com/spreadsheet-viewer)
 
+## Quick Start
+
+Quick Start examples are available to trial license and commercial license holders for the following frameworks:
+
+- JavaScript
+- React
+- Angular
+- Vue
+
 ## Documentation
 
 - [Installation](https://github.com/handsontable/spreadsheet-viewer/wiki/Installation)
