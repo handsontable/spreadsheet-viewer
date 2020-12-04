@@ -6,7 +6,7 @@
 
 ## Quick Start
 
-Quick Start examples are available to trial license and commercial license holders for the following frameworks:
+Quick Start examples are available to trial and commercial license holders for the following frameworks:
 
 - JavaScript
 - React
