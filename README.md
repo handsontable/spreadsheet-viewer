@@ -2,9 +2,7 @@
 
 ### Spreadsheet Viewer is a developer-friendly JavaScript tool that lets your users preview Excel files without leaving your web app
 
-[✨ Try the live demo](https://handsontable.com/spreadsheet-viewer)
-
-JavaScript (logo) | React (logo) | Angular (logo) | Vue (logo)
+## [✨ Try the live demo](https://handsontable.com/spreadsheet-viewer)
 
 ## Documentation
 
