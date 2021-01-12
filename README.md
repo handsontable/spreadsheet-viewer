@@ -8,13 +8,14 @@
 
 - [Installation](https://github.com/handsontable/spreadsheet-viewer/wiki/Installation)
 - API guides
-   - [Client Library](https://github.com/handsontable/spreadsheet-viewer/wiki/Guide-and-API%3A-Client-Library)
-   - [REST](https://github.com/handsontable/spreadsheet-viewer/wiki/Guide-and-API%3A-REST)
-   - [Web Messaging](https://github.com/handsontable/spreadsheet-viewer/wiki/Guide-and-API%3A-Web-Messaging)
+   - [JavaScript API](https://github.com/handsontable/spreadsheet-viewer/wiki/JavaScript-API)
+   - [Query String API](https://github.com/handsontable/spreadsheet-viewer/wiki/Query-String-API)
+   - [Web Messaging API](https://github.com/handsontable/spreadsheet-viewer/wiki/Web-Messaging-API)
 - Advanced topics
    - [Product architecture](https://github.com/handsontable/spreadsheet-viewer/wiki/Product-architecture)
    - [Error codes](https://github.com/handsontable/spreadsheet-viewer/wiki/Error-codes)
    - [Security](https://github.com/handsontable/spreadsheet-viewer/wiki/Security)
+   - [Customization](https://github.com/handsontable/spreadsheet-viewer/wiki/Customization)
 - [Features and known limitations](https://github.com/handsontable/spreadsheet-viewer/wiki/Features-and-known-limitations)
 - [Open-source licenses](https://github.com/handsontable/spreadsheet-viewer/wiki/Open-source-licenses)
 
@@ -26,4 +27,4 @@ After the 30-day trial period, you will be asked to purchase the commercial lice
 
 ## [Get in touch](http://handsontable.com/get-a-quote)
 
-© 2020 Handsoncode
+© 2021 Handsoncode
