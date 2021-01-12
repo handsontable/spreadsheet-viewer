@@ -8,8 +8,9 @@
 
 - [Installation](https://github.com/handsontable/spreadsheet-viewer/wiki/Installation)
 - API guides
-   - [JavaScript API](https://github.com/handsontable/spreadsheet-viewer/wiki/JavaScript-API)
+   - [API overview](https://github.com/handsontable/spreadsheet-viewer/wiki/API-overview)
    - [Query String API](https://github.com/handsontable/spreadsheet-viewer/wiki/Query-String-API)
+   - [JavaScript API](https://github.com/handsontable/spreadsheet-viewer/wiki/JavaScript-API)
    - [Web Messaging API](https://github.com/handsontable/spreadsheet-viewer/wiki/Web-Messaging-API)
 - Advanced topics
    - [Product architecture](https://github.com/handsontable/spreadsheet-viewer/wiki/Product-architecture)
