@@ -26,6 +26,11 @@ A 30-day trial license is [available on our website](https://handsontable.com/sp
 
 After the 30-day trial period, you will be asked to purchase the commercial license. Or, just [contact us](https://handsontable.com/get-a-quote) any time.
 
-## [Get in touch](http://handsontable.com/get-a-quote)
+## Get in touch
+
+- **[Contact sales](https://handsontable.com/get-a-quote)**
+- **[Get technical support](https://handsontable.com/contact?category=technical_support)**
+
+------
 
 © 2021 Handsoncode
