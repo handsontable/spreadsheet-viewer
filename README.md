@@ -13,6 +13,7 @@
    - [JavaScript API](https://github.com/handsontable/spreadsheet-viewer/wiki/JavaScript-API)
    - [Web Messaging API](https://github.com/handsontable/spreadsheet-viewer/wiki/Web-Messaging-API)
 - Advanced topics
+   - [Frame assets](https://github.com/handsontable/spreadsheet-viewer/wiki/Frame-assets)
    - [Product architecture](https://github.com/handsontable/spreadsheet-viewer/wiki/Product-architecture)
    - [Error codes](https://github.com/handsontable/spreadsheet-viewer/wiki/Error-codes)
    - [Security](https://github.com/handsontable/spreadsheet-viewer/wiki/Security)
