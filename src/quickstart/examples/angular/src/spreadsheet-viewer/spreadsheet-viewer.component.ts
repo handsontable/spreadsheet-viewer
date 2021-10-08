@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SpreadsheetViewer } from '../../../../spreadsheet-viewer/client-library/clientLibrary'
+import { SpreadsheetViewer } from '../../../../spreadsheet-viewer/client-library/clientLibrary';
 
 @Component({
   selector: 'spreadsheet-viewer',
-  template: `<div id="spreadsheet-viewer"></div>`,
+  template: '<div id="spreadsheet-viewer"></div>',
   styleUrls: ['spreadsheet-viewer.css']
 })
 /**
@@ -17,7 +17,9 @@ export class SpreadsheetViewerComponent implements OnInit {
    * Contact us to order a license key for commercial use beyond evaluation
    */
   @Input() license: string;
+
   @Input() sheet: number;
+
   @Input() workbook: string;
 
   constructor() { }
@@ -28,13 +30,13 @@ export class SpreadsheetViewerComponent implements OnInit {
       container: document.querySelector('div#spreadsheet-viewer'),
       assetsUrl: '/spreadsheet-viewer/sv/index.html'
     })
-      .then(instance => {
+      .then((instance) => {
         instance.configure({
           licenseKey: license
-        })
+        });
         instance.loadWorkbook(workbook, sheet);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error.message);
       });
   }

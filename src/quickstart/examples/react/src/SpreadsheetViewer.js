@@ -1,6 +1,6 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from 'react';
 
-import { SpreadsheetViewer } from "../../../spreadsheet-viewer/client-library/clientLibrary";
+import { SpreadsheetViewer } from '../../../spreadsheet-viewer/client-library/clientLibrary';
 
 export default () => {
   const svRef = useRef(null);
@@ -10,20 +10,20 @@ export default () => {
   // will always be populated.
   useLayoutEffect(() => {
     SpreadsheetViewer({
-      assetsUrl: "../../../spreadsheet-viewer/sv/index.html",
+      assetsUrl: '../../../spreadsheet-viewer/sv/index.html',
       container: svRef.current
     })
-      .then(instance => {
+      .then((instance) => {
         instance.configure({
-          license: "demo"
+          license: 'demo'
         });
 
-        instance.loadWorkbook("../../../common/workbooks/sample-file.xlsx", 0);
+        instance.loadWorkbook('../../../common/workbooks/sample-file.xlsx', 0);
       })
       .catch(console.error);
   }, []);
 
   return (
-    <div key="spreadsheet-viewer" id="spreadsheet-viewer" ref={svRef}></div>
+    <div key="spreadsheet-viewer" id="spreadsheet-viewer" ref={svRef} />
   );
 };

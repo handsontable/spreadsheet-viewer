@@ -1,23 +1,23 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { promises as fs } from 'fs';
+import path from 'path';
 
-import { Builder, WebDriver } from "selenium-webdriver";
-import webdriver from "selenium-webdriver";
-import * as chai from "chai";
+import webdriver, { Builder, WebDriver } from 'selenium-webdriver';
+
+import * as chai from 'chai';
 
 const testTimeout = 10000;
 
 const urlsEnv = process.env.URLS;
 
 if (urlsEnv === undefined) {
-  throw new TypeError("URLS environment variable is required.");
+  throw new TypeError('URLS environment variable is required.');
 }
 
-const urls = urlsEnv.split(' ')
+const urls = urlsEnv.split(' ');
 
-const sanitizeURLToFilename = (url: string): string => url.split('').filter(char => /[A-Za-z0-9.]/.test(char)).join('')
+const sanitizeURLToFilename = (url: string): string => url.split('').filter(char => /[A-Za-z0-9.]/.test(char)).join('');
 
-const waitInIframeFor = async (
+const waitInIframeFor = async(
   driver: WebDriver,
   selector: string,
   timeout: number
@@ -29,19 +29,19 @@ const waitInIframeFor = async (
   );
 };
 
-const takeScreenshot = async (driver: WebDriver, screenshotName: string) => {
+const takeScreenshot = async(driver: WebDriver, screenshotName: string) => {
   const screenshotBase64 = await driver.takeScreenshot();
   await fs.writeFile(
     path.join(__dirname, `quickstart-${screenshotName}.png`),
     screenshotBase64,
-    "base64"
+    'base64'
   );
 };
 
-const testUrlForSelectors = async (url: string, selectors: string[]) => {
+const testUrlForSelectors = async(url: string, selectors: string[]) => {
   const driver = await new Builder()
-    .forBrowser("chrome")
-    .usingServer(`http://localhost:4444/wd/hub`)
+    .forBrowser('chrome')
+    .usingServer('http://localhost:4444/wd/hub')
     .build();
 
   await driver.get(url);
@@ -70,10 +70,10 @@ const testUrlForSelectors = async (url: string, selectors: string[]) => {
   });
 };
 
-describe("SpreadsheetViewer integration tests", () => {
+describe('SpreadsheetViewer integration tests', () => {
   for (const url of urls) {
-    it(`should load sv in ${url}`, async () => {
-      const selectors = [".ht_master td"];
+    it(`should load sv in ${url}`, async() => {
+      const selectors = ['.ht_master td'];
       await testUrlForSelectors(url, selectors);
     });
   }
