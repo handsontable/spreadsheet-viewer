@@ -280,40 +280,33 @@ jobs:
         with:
           node-version: 12
 
-      - name: Checkout spreadsheet-viewer-quickstart repo
-        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
-        with:
-          repository: handsontable/spreadsheet-viewer-quickstart
-          token: ${{ secrets.SV_DEV_READ_PRIVATE_REPOS }}
-
       - name: Download build artifacts
         uses: actions/download-artifact@1de1dea89c32dcb1f37183c96fe85cfe067b682a # https://github.com/actions/download-artifact/releases/tag/v2
         with:
           name: dist
           path: dist
 
-      - name: Replace the files in the quickstart repo
-        run: |
-          rm -r spreadsheet-viewer
-          cp -r dist spreadsheet-viewer
-
       - name: Retrieve cached dependencies (quickstart)
         id: cache-quickstart-deps
         uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
         with:
-          path: "node_modules"
-          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          path: "src/quickstart/node_modules"
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}-monorepo
 
       - name: Install dependencies
+        working-directory: src/quickstart
         run: yarn
 
       - name: Build the zip package
+        working-directory: src/quickstart
         run: yarn prepare-zip
 
       - name: Pull Selenium image
+        working-directory: src/quickstart
         run: docker pull $SELENIUM_IMAGE
 
       - name: Starting Selenium in Docker
+        working-directory: src/quickstart
         run: |
           docker run --rm --net=host -v /dev/shm:/dev/shm $SELENIUM_IMAGE &
 
@@ -322,12 +315,14 @@ jobs:
           sleep $DELAY
 
       - name: Start a static HTTP server
+        working-directory: src/quickstart
         run: |
           unzip SpreadsheetViewer.zip -d SpreadsheetViewerZip
           cd SpreadsheetViewerZip
           python3 -m http.server 8080 &
 
       - name: Run tests
+        working-directory: src/quickstart
         run: |
           URLS="http://localhost:8080/examples/js/index.html http://localhost:8080/examples/react/dist/index.html http://localhost:8080/examples/vue/dist/index.html http://localhost:8080/examples/angular/dist/angular/index.html"
           export URLS
@@ -338,7 +333,7 @@ jobs:
         if: always() # Run this step even if any of the steps above fails
         continue-on-error: true # https://github.com/handsontable/spreadsheet-viewer-dev/issues/853
         with:
-          path: test/quickstart-*.png
+          path: src/quickstart/test/quickstart-*.png
           name: Quickstart Screenshots
 
   integration-samples:
