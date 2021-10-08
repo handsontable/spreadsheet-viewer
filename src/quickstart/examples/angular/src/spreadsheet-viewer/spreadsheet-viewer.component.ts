@@ -22,8 +22,6 @@ export class SpreadsheetViewerComponent implements OnInit {
 
   @Input() workbook: string;
 
-  constructor() { }
-
   ngOnInit(): void {
     const { workbook, sheet, license } = this;
     SpreadsheetViewer({

@@ -72,8 +72,8 @@ const main = async() => {
 
   const zip = new JSZip();
 
-  for (const file of files) {
-    zip.file(file, await fs.readFile(file));
+  for (const file of files) { // eslint-disable-line no-restricted-syntax
+    zip.file(file, await fs.readFile(file)); // eslint-disable-line no-await-in-loop
   }
 
   log(`zip contents: \n${reportDirectories(files)}`);

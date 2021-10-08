@@ -71,10 +71,10 @@ const testUrlForSelectors = async(url: string, selectors: string[]) => {
 };
 
 describe('SpreadsheetViewer integration tests', () => {
-  for (const url of urls) {
+  for (const url of urls) { // eslint-disable-line no-restricted-syntax
     it(`should load sv in ${url}`, async() => {
       const selectors = ['.ht_master td'];
-      await testUrlForSelectors(url, selectors);
+      await testUrlForSelectors(url, selectors); // eslint-disable-line no-await-in-loop
     });
   }
 });
