@@ -1,0 +1,104 @@
+// shared icon styles
+.toolbar-icon {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 4px;
+  padding: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  &:hover .icon-tooltip {
+    .icon-tooltip-hover();
+  }
+  svg {
+    width: 24px;
+    height: 24px;
+    .svg-icon {
+      fill: @toolbar-icons-background;
+    }
+    // path:last-child is svg icon color (but path:first-child is background color of svg icon)
+    path:last-child {
+      fill: @toolbar-icons-background;
+    }
+    &:hover {
+      .svg-icon {
+        fill: @toolbar-icons-background-hover;
+      }
+      path:last-child {
+        fill: @toolbar-icons-background-hover;
+      }
+    }
+  }
+}
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  max-height: @toolbar-height;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  background: @toolbar-background;
+  color: @toolbar-font-color;
+  z-index: 2;
+  .toolbar-left-pane {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    box-sizing: border-box;
+    .icon#sv-icon {
+      margin: 19px 8px auto 16px;
+      height: 18px;
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .file-title {
+      font-family: @font;
+      font-size: @toolbar-file-title-font-size;
+    }
+  }
+
+  .toolbar-right-pane {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+
+    .icon {
+      .toolbar-icon();
+    }
+    .icons-wrapper {
+      display: flex;
+
+      #feedback-icon {
+        margin-right: 16px;
+        .icon-tooltip {
+          // the info icon is the last button in the toolbar, but it has very long text and by default tooltip text it is trunced
+          // the solution is to move tooltip text more to the left. Now it is perfectly aligned with the right egde of the viewport
+          right: -7px;
+        }
+      }
+
+      .icon[disabled],
+      .icon[disabled] a {
+        cursor: default;
+      }
+
+      .icon[disabled] svg {
+        opacity: 0.25;
+      }
+    }
+  }
+}

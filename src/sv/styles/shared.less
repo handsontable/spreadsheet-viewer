@@ -1,0 +1,162 @@
+// File includes shared styles for both dark and light theme
+
+@import 'modal';
+@import 'loading-screen';
+@import 'crash-screen';
+@import 'developer-screen';
+@import 'toolbar';
+@import 'tabbar';
+@import 'dropup-menu';
+@import 'mobile';
+
+@font: Arial, Helvetica, sans-serif;
+@font-size: 13px;
+// tab bar default view
+@scrollable-tabs-width: 768px;
+@tabbar-height: 40px;
+// toolbar
+@toolbar-height: 56px;
+@toolbar-file-title-font-size: 14px;
+@tooltip-font-size: 12px;
+@frozen-pane-border-color: 1px solid #1d1d1d;
+// main button styles
+@button-background: #104ACC;
+
+html, body {
+  height: 100vh;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: @application-background;
+}
+
+.sv-app-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background: @application-background;
+}
+
+.sv-hottable-wrapper {
+  flex-grow: 1;
+  width: 100%;
+  z-index: 1;
+  height: calc(100% - (@tabbar-height + @toolbar-height));
+  margin-bottom: @tabbar-height;
+  margin-top: @toolbar-height;
+  position: fixed;
+}
+
+// Cell - Gridline
+.handsontable .htCore td {
+  border-bottom-color: #e0e0e0;
+  border-right-color: #e0e0e0;
+}
+
+// Row and column
+.handsontable tr th { 
+  font-family: @font;
+  font-size: @font-size;
+  background: @row-and-column-color;
+  border-color: @row-and-column-color;
+  color: @font-color;
+}
+
+.handsontable tbody tr th.ht__highlight, 
+.handsontable thead tr th.ht__highlight {
+  background: @highlight-row-and-column-color;
+  border-color: @highlight-row-and-column-color;
+  color: @selected-row-and-column-font-color;
+}
+
+// Selection
+.handsontable tr td {
+  &.area, &.area-1, &.area-2, &.area-3, &.area-4, &.area-5, &.area-6, &.area-7 {
+    &:before {
+      background: rgb(5, 68, 215);
+      top: 0;
+      left: 0;
+      right: -1px;
+      bottom: -1px;
+    }
+  }
+}
+
+/**
+ * Frozen line, implemented as a special color of the gridline
+ */
+.handsontable.handsontable {
+  .ht_clone_top_left_corner thead th:last-child:not(.wtTableCornerCell),
+  .ht_clone_top_left_corner td:last-child,
+  .ht_clone_bottom_left_corner td:last-child,
+  .ht_clone_left td:last-child {
+    border-right: @frozen-pane-border-color;
+  }
+  .ht_clone_top tbody tr:last-child td,
+  .ht_clone_top_left_corner tbody tr:last-child th,
+  .ht_clone_top_left_corner tbody tr:last-child td {
+    border-bottom: @frozen-pane-border-color;
+  }
+  .ht_clone_bottom_left_corner tbody.afterEmptyThead tr:first-child th,
+  .ht_clone_bottom_left_corner tbody.afterEmptyThead tr:first-child td,
+  .ht_clone_bottom tbody.afterEmptyThead tr:first-child td {
+    border-top: @frozen-pane-border-color;
+  }
+}
+
+.icon-tooltip {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: -30px;
+  max-width: 120px;
+  height: 20px;
+  padding: 3px 6px;
+  border-radius: 2px;
+  z-index: -1;
+  opacity: 0;
+  background: #424242;
+  font-family: @font;
+  font-size: @tooltip-font-size;
+  color: #CACECF;
+  transition: all 0.3s;
+  visibility: hidden;
+  span {
+    white-space: nowrap;
+  }
+}
+.icon-tooltip-hover {
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.5s;
+  visibility: visible;
+}
+
+.trunced-text {
+  text-overflow: ellipsis;
+  white-space: pre;
+  overflow: hidden;
+}
+
+.sv-button {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 2px;
+  box-sizing: border-box;
+  font-family: @font;
+  font-size: 14px;
+  color: #FFFFFF;
+  text-decoration: none;
+  background: @button-background;
+  cursor: pointer;
+
+  &[hidden] {
+    display: none;
+  }
+}

@@ -1,0 +1,128 @@
+#root {
+  // App bar - https://material-ui.com/components/app-bar/
+  .sv-tabbar {
+    flex-direction: row;
+    align-items: flex-start;
+    box-shadow: none;
+    background-color: @tabs-background;
+    border-top: 1px solid @tabs-top-border-color;
+    height: @tabbar-height;
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    .sv-dropup-menu-button {
+      width: 24px;
+      height: 18px;
+      margin: 8px 12px;
+      align-self: center;
+      display: flex;
+      justify-content: center;
+      cursor: pointer;
+      &:focus {
+        outline: none;
+      }
+      & svg {
+        &:hover {
+          path, rect {
+            fill: @dropup-icon-color-on-hover;
+          }
+        }
+        &.active {
+          path, rect {
+            fill: @dropup-icon-color-on-hover;
+          }
+        }
+        path, rect {
+          fill: @dropup-icon-color;
+        }
+      }
+      .icon-tooltip {
+        bottom: 39px;
+        left: 8px;
+      }
+      &:hover .icon-tooltip {
+        .icon-tooltip-hover();
+      }
+    }
+  }
+  .sv-tabs {
+    min-height: auto;
+    max-height: @tabbar-height;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    .sv-tabs-scrollable {
+      max-width: calc(100% - 64px);
+    }
+    .sv-tab-scroll-button {
+      width: 16px;
+      height: 16px;
+      display: inherit;
+      &:first-child {
+        position: absolute;
+        left: calc(100% - 64px + 16px);
+      }
+      &:last-child {
+        left: calc(16px + 22px);
+      }
+      & svg {
+        path {
+          fill: @svg-arrow-background;
+        }
+      }
+      &-disabled svg {
+        path {
+          fill: @svg-arrow-background-disabled;
+        }
+      }
+    }
+  }
+  .sv-tab {
+    max-height: 30px;
+    min-height: 0px;
+    min-width: 88px;
+    margin-right: 2px;
+    padding: 8px 23px;
+    text-transform: none;
+    font-family: @font;
+    font-size: @font-size;
+    color: @no-active-tab-font-color;
+    background-color: @no-active-tab-background;
+    // tab label's wrapper element.
+    .MuiTab-wrapper {
+      line-height: 1.2;
+      display: block;
+      max-width: 180px;
+      .trunced-text();
+    }
+    &.Mui-selected {
+      background-color: @active-tab-background;
+      color: @active-tab-font-color;
+    }
+    &:hover {
+      color: @no-active-tab-hover-font-color;
+    }
+    &-long-title {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    // TabIndicator component (tab highlighted with bottom border)
+    &-indicator {
+      display: none;
+    }
+    // border style to first and last tab
+    &:first-child, &:last-child {
+      border-bottom-width: 2px;
+      border-style: solid;
+      border-color: transparent;
+    }
+    // first tab has 2px border radius
+    &:first-child:extend(&:first-child) {
+      border-bottom-left-radius: 2px;
+    }
+    // last tab has 2px border radius
+    &:last-child:extend(&:last-child) {
+      border-bottom-right-radius: 2px;
+    }
+  }
+}

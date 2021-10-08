@@ -1,0 +1,66 @@
+@import 'shared';
+
+// modal box
+@background: #FFFFFF;
+@space-from-corner: 16px;
+@modal-font-color: #1D1D1D;
+@link-color: #104ACC;
+// heading - title
+@title-font-size: 15px;
+@title-font-weight: bold;
+@title-line-height: 1.35;
+@title-font: @title-font-weight @title-font-size /@title-line-height @font;
+// heading - description
+@description-font-size: 13px;
+@description-font-weight: normal;
+@description-line-height: 1.30;
+@description-font: @description-font-weight @description-font-size /@description-line-height @font;
+
+.modal {
+  position: relative;
+  width: 370px;
+  padding-bottom: 22px;
+  background: @background;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 6px 0px rgba(29,29,29,0.16);
+  border-radius: 4px;
+  text-align: center;
+  color: @modal-font-color;
+  .close-icon-modal {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    cursor: pointer;
+  }
+  .modal-title {
+    font: @title-font;
+    margin-top: 22px;
+    margin-bottom: 10px;
+  }
+  .modal-description {
+    font: @description-font;
+    margin: 0;
+    a {
+      color: @link-color;
+      text-decoration: none;
+    }
+  }
+  .sv-button {
+    margin-top: 23px;
+  }
+}
+// ripple effect
+@keyframes ripple {
+  0% {
+    box-shadow: inset 0px 0px 0px 18px @button-background, inset -56.5px 0 0 0 @button-background, inset 56.5px 0 0 0 @button-background;
+  }
+  25% {
+    box-shadow: inset 0px 0px 0px 18px @button-background, inset -56.5px 0 0 0 @button-background, inset 56.5px 0 0 0 @button-background;
+  }
+  50% {
+    box-shadow: inset 0px 0px 0px 0px @button-background, inset -39.5px 0 0 0 @button-background, inset 39.5px 0 0 0 @button-background;
+  }
+  100% {
+    box-shadow: inset 0px 0px 0px 0px @button-background, inset 0px 0 0 0 @button-background, inset 0 0 0 0 @button-background;
+  }
+}

@@ -1,0 +1,252 @@
+.handsontable {
+  position: relative;
+}
+
+.handsontable .hide {
+  display: none;
+}
+
+.handsontable .relative {
+  position: relative;
+}
+
+.handsontable .wtHider {
+  width: 0;
+}
+
+.handsontable .wtSpreader {
+  position: relative;
+  width: 0; /*must be 0, otherwise blank space appears in scroll demo after scrolling max to the right */
+  height: auto;
+}
+
+.handsontable table,
+.handsontable tbody,
+.handsontable thead,
+.handsontable td,
+.handsontable th,
+.handsontable input,
+.handsontable textarea,
+.handsontable div {
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+}
+
+.handsontable input,
+.handsontable textarea {
+  min-height: initial;
+}
+
+.handsontable table.htCore {
+  border-collapse: separate;
+  /* it must be separate, otherwise there are offset miscalculations in WebKit: http://stackoverflow.com/questions/2655987/border-collapse-differences-in-ff-and-webkit */
+  /* this actually only changes appearance of user selection - does not make text unselectable */
+  /* -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    user-select: none; */ /* no browser supports unprefixed version */
+  border-spacing: 0;
+  margin: 0;
+  border-width: 0;
+  table-layout: fixed;
+  width: 0;
+  outline-width: 0;
+  cursor: default;
+  /* reset bootstrap table style. for more info see: https://github.com/handsontable/handsontable/issues/224 */
+  max-width: none;
+  max-height: none;
+}
+
+.handsontable th,
+.handsontable td {
+  border-style: solid;
+  border-color: #ccc;
+  border-top-width: 0;
+  border-left-width: 0;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  height: 22px;
+  empty-cells: show;
+  line-height: 21px;
+  padding: 0 4px 0 4px;
+  /* top, bottom padding different than 0 is handled poorly by FF with HTML5 doctype */
+  background-color: #fff;
+  vertical-align: top;
+  overflow: hidden;
+  outline-width: 0;
+  white-space: pre-line;
+  /* preserve new line character in cell */
+}
+
+.handsontable th:last-child {
+  /*Foundation framework fix*/
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+}
+
+.handsontable th:first-child,
+.handsontable td:first-child {
+  border-left-width: 1px;
+}
+
+.handsontable thead tr:first-child th,
+.handsontable thead tr:first-child td,
+.handsontable tbody.afterEmptyThead tr:first-child th,
+.handsontable tbody.afterEmptyThead tr:first-child td {
+  border-top-width: 1px;
+}
+
+.handsontable th {
+  background-color: #f0f0f0;
+  color: #222;
+  text-align: center;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.handsontable thead th {
+  padding: 0;
+}
+
+.handsontable th.active {
+  background-color: #ccc;
+}
+.handsontable thead th .relative {
+  padding: 2px 4px;
+}
+
+.handsontable span.colHeader {
+  display: inline-block;
+  line-height: 1.082; /* was 1.1 before, but that resulted in different line-height in FF and Ch on Windows */
+}
+
+/* Selection */
+.handsontable .wtBorder {
+  position: absolute;
+  font-size: 0;
+}
+
+/* A layer order of the selection types */
+.handsontable .wtBorder.current.corner {
+  z-index: 10;
+}
+.handsontable .wtBorder.area.corner {
+  z-index: 8;
+}
+.handsontable .wtBorder.corner {
+  font-size: 0;
+  cursor: crosshair;
+}
+
+.ht_clone_master {
+  z-index: 100;
+}
+
+.ht_clone_right {
+  z-index: 110;
+}
+
+.ht_clone_left {
+  z-index: 120;
+}
+
+.ht_clone_bottom {
+  z-index: 130;
+}
+
+.ht_clone_bottom_right_corner {
+  z-index: 140;
+}
+
+.ht_clone_bottom_left_corner {
+  z-index: 150;
+}
+
+.ht_clone_top {
+  z-index: 160;
+}
+
+.ht_clone_top_right_corner {
+  z-index: 170;
+}
+
+.ht_clone_top_left_corner {
+  z-index: 180;
+}
+
+/*
+  Cell borders
+  */
+.handsontable tbody tr th:nth-last-child(2) {
+  border-right-width: 1px;
+}
+
+.ht_clone_top_left_corner thead tr th:nth-last-child(2) {
+  border-right-width: 1px;
+}
+
+.handsontable col.hidden {
+  width: 0 !important;
+}
+
+.handsontable tr.hidden,
+.handsontable tr.hidden td,
+.handsontable tr.hidden th {
+  display: none;
+}
+
+.ht_master,
+.ht_clone_left,
+.ht_clone_top,
+.ht_clone_bottom {
+  overflow: hidden;
+}
+
+.ht_master .wtHolder {
+  overflow: auto;
+}
+
+.handsontable .ht_master thead,
+.handsontable .ht_master tr th,
+.handsontable .ht_clone_left thead {
+  visibility: hidden;
+}
+
+.ht_clone_top .wtHolder,
+.ht_clone_left .wtHolder,
+.ht_clone_bottom .wtHolder {
+  overflow: hidden;
+}
+
+.handsontable svg.wtBorders:not(:root) {
+  overflow: hidden; /* fix for IE, where SVG content is not cropped to the viewbox. Otherwise IE shows artifacts in SVG borders when scrolling with fixedColumnsLeft */
+}
+
+@media print {
+  .handsontable svg.wtBorders:not(:root) {
+    display: none;
+  }
+}
+
+/**
+ * Frozen line, implemented as a special color of the gridline
+ */
+.ht_clone_top_left_corner thead th:last-child:not(.wtTableCornerCell),
+.ht_clone_top_left_corner td:last-child,
+.ht_clone_bottom_left_corner td:last-child,
+.ht_clone_left td:last-child {
+  border-right: 1px solid #5d6365;
+}
+.ht_clone_top tbody tr:last-child td,
+.ht_clone_top_left_corner tbody tr:last-child th,
+.ht_clone_top_left_corner tbody tr:last-child td {
+  border-bottom: 1px solid #5d6365;
+}
+.ht_clone_bottom_left_corner tbody.afterEmptyThead tr:first-child th,
+.ht_clone_bottom_left_corner tbody.afterEmptyThead tr:first-child td,
+.ht_clone_bottom tbody.afterEmptyThead tr:first-child td {
+  border-top: 1px solid #5d6365;
+}

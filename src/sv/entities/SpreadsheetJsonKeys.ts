@@ -1,0 +1,9 @@
+export const SJS_MERGE_KEY = '!merges';
+export const SJS_COLS_KEY = '!cols';
+export const SJS_ROWS_KEY = '!rows';
+export const SJS_XSPLIT_KEY = 'xSplit';
+export const SJS_YSPLIT_KEY = 'ySplit';
+export const SJS_SHOWGRID_KEY = 'showGrid';
+export const SJS_OBJECTS_KEY = '!objects';
+export const SJS_DEFAULT_SIZES_KEY = '!sv-defaultsizes';
+export const SJS_TABLES = '!sv-tables';

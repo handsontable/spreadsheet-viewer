@@ -1,0 +1,11 @@
+version: '3.5'
+services:
+  cypress_sv:
+    image: "cypress/included:5.2.0"
+    environment:
+      - CYPRESS_baseUrl=http://host.docker.internal:5000
+      - CYPRESS_cmd
+    working_dir: /app
+    volumes:
+      - ../:/app
+    command: --browser chrome --headless ${CYPRESS_cmd}

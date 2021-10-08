@@ -1,0 +1,30 @@
+{
+  "include": [
+    "src/sv"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "lib": [
+      "dom",
+      "es5",
+      "es6"
+    ],
+    "target": "es6",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "handsontable": [
+        "submodules/handsontable"
+      ]
+    },
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  }
+}

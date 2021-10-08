@@ -1,0 +1,77 @@
+@import '../../fonts/index.less';
+
+/* 
+below `height` and `line-height` changes are a workaround for rendering 
+row heights that are smaller than 22px
+@see https://github.com/handsontable/spreadsheet-viewer-dev/issues/335
+@see https://github.com/handsontable/handsontable/issues/4021
+*/
+.handsontable tbody th,
+.handsontable tbody td {
+  height: auto; 
+  line-height: normal;
+}
+
+.handsontable tbody th {
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.handsontable tbody th div.relative {
+  padding-bottom: 1px;
+}
+
+.handsontable td {
+  position: relative;
+  overflow: visible;
+  padding: 0;
+}
+
+// workaround for a missing top-left overlay selector in https://github.com/handsontable/handsontable/blob/master/src%2F3rdparty%2Fwalkontable%2Fcss%2Fwalkontable.css#L212-L216
+// without this workaround, the floating object leaks from the top-left corner overlay while scrolling
+// see objects-and-frozen.xlsx (tab 6)
+.ht_clone_top_left_corner .wtHolder {
+  overflow: hidden;
+}
+
+.handsontable.sv-hide-gridlines .handsontable td {
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+
+.sv-chart-title {
+  font-size: 18px;
+  color: #777;
+  padding: 10px;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+.handsontable {
+  .sv-cell-text-wrapper {
+    white-space: pre;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .sv-cell-text-wrapper__currency {
+    display: none;
+  }
+
+  .sv-cell-text-wrapper--accounting {
+    margin: 0 !important;
+    justify-content: space-between !important;
+
+    .sv-cell-text-wrapper__currency {
+      display: block;
+      margin-left: 4px;
+    }
+  
+    .sv-cell-text-wrapper__value {
+      margin-right: 4px;
+    }
+  }
+}

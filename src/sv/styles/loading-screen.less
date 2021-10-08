@@ -1,0 +1,98 @@
+@spinner-dark-color: #104ACC;
+@spinner-light-color: #C2C8F0;
+
+@keyframes delayedFadein {
+  0% { opacity: 0; } /* start invisible */
+  66% { opacity: 0; } /* at 660ms, animate from invisible */
+  100% { opacity: 1; } /* at 1s, reach the desired opacity */
+}
+
+ @keyframes flipRightThenDown {
+  0% { /* front towards the viewer */
+    transform: perspective(90px) rotateY(0) rotateX(0);
+    background: @spinner-dark-color;
+  }
+  25% { /* flip right until the edge is towards the viewer */
+    transform: perspective(90px) rotateY(90deg) rotateX(0);
+    background: @spinner-dark-color;
+  }
+  25.1% { /* while flipped, immediately switch the color (to light) */
+    transform: perspective(90px) rotateY(90deg) rotateX(0);
+    background: @spinner-light-color;
+  }
+  50% { /* back towards the viewer */
+    transform: perspective(90px) rotateY(180deg) rotateX(0);
+    background: @spinner-light-color;
+  }
+  75% { /* flip top until the edge is towards the viewer */
+    transform: perspective(90px) rotateY(180deg) rotateX(90deg);
+    background: @spinner-light-color;
+  }
+  75.1% { /* while flipped, immediately switch the color (to dark) */
+    transform: perspective(90px) rotateY(180deg) rotateX(90deg);
+    background: @spinner-dark-color;
+  }
+  100% { /* stop */
+    transform: perspective(90px) rotateY(180deg) rotateX(180deg);
+    background: @spinner-dark-color;
+  }
+}
+
+.sv-loading-screen {
+  background: @loading-background;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  animation-duration: 1s;
+  animation-name: delayedFadein;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .sv-loading-screen--spinner {
+    width: 48px;
+    height: 49px;
+    background: @spinner-dark-color;
+    border-radius: 8px;
+    animation: flipRightThenDown 1.23s linear both infinite;
+    margin-bottom: 42px;
+
+    body[data-prefers-reduced-motion] & {
+      animation: none; // for testing, disable the rotation of the spinner
+    }
+
+    @media (prefers-reduced-motion) { // for A11Y, reduce the heavy rotation of the spinner
+      animation: flipRightThenDown 12.3s linear both infinite;
+    }
+  }
+
+  .sv-loading-screen--details {
+    font-family: @font;
+    font-size: 18px;
+    color: @loading-font-color;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p,
+    .sv-button {
+      opacity: 0;
+      animation: delayedFadein;
+      animation-fill-mode: forwards;
+      animation-duration: 2s;
+    }
+    p {
+      margin: 0;
+      animation-delay: 8s;
+    }
+    .sv-button {
+      margin-top: 34px;
+      animation-delay: 10s;
+    }
+  }
+}

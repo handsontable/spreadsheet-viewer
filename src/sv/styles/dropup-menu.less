@@ -1,0 +1,43 @@
+div .sv-dropup-menu-container {
+  background: @dropup-background;
+  padding: 0;
+  margin-top: 2.5px;
+  padding-bottom: 0;
+  border-radius: 2px;
+  box-shadow: none;
+  box-sizing: border-box;
+  transform: translateX(-8px) translateY(-31px) !important;
+  .sv-dropup-menu-list {
+    padding: 0;
+  }
+  .sv-dropup-menu-item {
+    font-family: @font;
+    font-size: @font-size;
+    color: @dropup-item-font-color;
+    border-bottom: 3px solid @dropup-background;
+    border-top: 3px solid @dropup-background;
+    // padding-left is 10px = 8px (distance from highlighting colors) + 2px (width of the highlighting colors)
+    padding: 0 0 0 10px;
+    // margin-right is a space from scrollbar 16px + width of scrollbar (now width is approximately)
+    margin: 4.5px 20px 4.5px 0; 
+    max-height: 22px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      color: @dropup-item-hover-font-color;
+      background: none;
+    }
+    &.active {
+      color: @dropup-item-active-font-color;
+      background: transparent;
+    }
+    div {
+      .trunced-text();
+    }
+  }
+}

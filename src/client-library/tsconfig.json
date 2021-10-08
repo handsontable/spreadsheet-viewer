@@ -1,0 +1,15 @@
+{
+  "files": [
+    "clientLibrary.ts"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "lib": [
+      "dom",
+      "es6"
+    ],
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "outDir": "../../dist"
+  }
+}

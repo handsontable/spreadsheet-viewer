@@ -1,0 +1,502 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  prepare-matrix:
+    name: Prepare Matrix
+    if: "!startsWith(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-18.04
+    outputs:
+      specs: ${{ steps.prepare-specs-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+      - id: prepare-specs-matrix
+        run: cd cypress/integration/ && echo "::set-output name=matrix::$(sh ../../.github/prepare-specs-matrix.sh)"
+
+  build:
+    name: Build
+    if: "!startsWith(github.event.head_commit.message, '[skip ci]')"
+
+    timeout-minutes: 6
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Use Node 12
+        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+        with:
+          node-version: 12
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+        with:
+          # Retrieves submodules/handsontable with depth=1
+          submodules: true
+
+      - name: Retrieve cached dependencies
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies and submodules dependencies
+        run: yarn
+
+      - name: Build the app in staging mode
+        run: NODE_ENV=staging yarn build
+
+      - name: File size report
+        id: file-size-report
+        # Same as 'yarn report', but yarn stdout is not logged fully in GH Actions
+        run: |
+          echo 'File size report: ( ${{ github.sha }} )' > fileSizeReport.txt
+          echo
+          echo '```shell script' >> fileSizeReport.txt
+          echo '# HTML file sizes' >> fileSizeReport.txt
+          ls -Slh dist/sv/*.html >> fileSizeReport.txt
+          echo '# JS bundle sizes' >> fileSizeReport.txt
+          ls -Slh dist/sv/*.js >> fileSizeReport.txt
+          echo '# CSS bundle sizes' >> fileSizeReport.txt
+          ls -Slh dist/sv/*.css >> fileSizeReport.txt
+          echo '# Total size of HTML files, CSS bundles and JS bundles' >> fileSizeReport.txt
+          du -ch dist/sv/*.{html,css,js} | tail -n 1 >> fileSizeReport.txt
+          echo '```' >> fileSizeReport.txt
+
+          cat fileSizeReport.txt
+
+      - name: Find PR
+        uses: jwalton/gh-find-current-pr@b6f8d7342efe4913388d5d1ac7f4b956caa5db52 # https://github.com/jwalton/gh-find-current-pr/tree/v1
+        id: pr-finder
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish sticky comment in PR
+        uses: marocchino/sticky-pull-request-comment@6804b5ad49d19c10c9ae7cf5057352f7ff333f31 # https://github.com/marocchino/sticky-pull-request-comment/tree/v1.6.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.pr-finder.outputs.pr }}
+          path: fileSizeReport.txt
+
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@e7eefc491732c06d0ebbf4d4f49dcc25b4d2f3a8 # https://github.com/actions/upload-artifact/releases/tag/v2
+        with:
+          name: dist
+          path: dist
+
+  lint:
+    name: Lint
+    needs: build
+    timeout-minutes: 2
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Use Node 12
+        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+        with:
+          node-version: 12
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+
+      - name: Retrieve cached devDependencies
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Code style linting
+        run: yarn lint
+
+  unit:
+    name: Unit
+    needs: build
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Use Node 12
+        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+        with:
+          node-version: 12
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+
+      - name: Retrieve cached devDependencies
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Run unit tests
+        run: yarn test:unit
+
+  cypress:
+    name: Cypress ${{ matrix.spec }}
+    needs:
+      - build
+      - prepare-matrix
+    timeout-minutes: 30
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        spec: ${{fromJson(needs.prepare-matrix.outputs.specs)}}
+
+    steps:
+      - name: Use Node 12
+        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+        with:
+          node-version: 12
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+
+      - name: Retrieve cached devDependencies
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@1de1dea89c32dcb1f37183c96fe85cfe067b682a # https://github.com/actions/download-artifact/releases/tag/v2
+        with:
+          name: dist
+          path: dist
+
+      - name: Start a static HTTP server
+        run: yarn serve:sv &
+
+      - name: Run integration and visual tests
+        timeout-minutes: 5
+        run: CYPRESS_cmd='--spec cypress/integration/${{ matrix.spec }}' yarn test:snapshot:linux
+
+      - name: Check that the git repo is clean
+        # Used to check if any new snapshots were unnecessarily generated
+        # during this run
+        run: |
+          if [ "$(git status --porcelain)" ]; then
+            git status
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@27bce4eee761b5bc643f46a8dfb41b430c8d05f6 # https://github.com/actions/upload-artifact/releases/tag/v2.2.0
+        if: ${{ failure() }}
+        with:
+          name: Diffs of visual testing failures
+          path: |
+            cypress/screenshots
+            cypress/snapshots/**/__diff_output__/*
+
+      - name: Regenerate snapshots
+        if: ${{ failure() }}
+        timeout-minutes: 5
+        run: CYPRESS_cmd='--spec cypress/integration/${{ matrix.spec }}  --env updateSnapshots=true' yarn test:snapshot:linux
+
+      - uses: actions/upload-artifact@27bce4eee761b5bc643f46a8dfb41b430c8d05f6 # https://github.com/actions/upload-artifact/releases/tag/v2.2.0
+        if: ${{ always() }} # Should run always, because we want to have ready to use snapshots dir.
+        continue-on-error: true # https://github.com/handsontable/spreadsheet-viewer-dev/issues/853
+        with:
+          name: Snapshots
+          retention-days: 3
+          # Should save snapshot only from current job, because other snapshots aren't regenerated.
+          # Include a file from a parent folder's sibling to enforce the proper folder structure (otherwise there is a flat folder structure)
+          path: |
+            cypress/fixtures/README.md
+            cypress/snapshots/${{ matrix.spec }}
+            !cypress/snapshots/**/__diff_output__/*
+
+  testingbot:
+    name: TestingBot
+    needs: build
+    timeout-minutes: 15
+    runs-on: ubuntu-18.04
+
+    # Prevent the whole workflow from failing if this job fails. This is
+    # done due to many inconsistencies with TestingBot that caused flaky
+    # tests to enter, which would get annoying very quickly - one of them being
+    # a hard limit on the maximum amount of tunnels that you can have opened to
+    # the same account.
+    continue-on-error: true
+
+    env:
+      TESTING_BOT_KEY: ${{ secrets.TESTING_BOT_KEY }}
+      TESTING_BOT_SECRET: ${{ secrets.TESTING_BOT_SECRET }}
+
+    steps:
+      - name: Use Node 12
+        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+        with:
+          node-version: 12
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+
+      - name: Retrieve cached devDependencies
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@1de1dea89c32dcb1f37183c96fe85cfe067b682a # https://github.com/actions/download-artifact/releases/tag/v2
+        with:
+          name: dist
+          path: dist
+
+      - name: Start a static HTTP server
+        run: yarn serve:sv &
+
+      - name: Run tests
+        run: yarn testing-bot --execution-mode=compare --scenario=all
+
+      - name: Check that the git repo is clean
+        # Used to check if any new snapshots were unnecessarily generated
+        # during this run
+        run: |
+          if [ "$(git status --porcelain)" ]; then
+            git status
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@27bce4eee761b5bc643f46a8dfb41b430c8d05f6 # https://github.com/actions/upload-artifact/releases/tag/v2.2.0
+        if: ${{ failure() }}
+        with:
+          # The files uploaded here have random id's appended to their names
+          # and might look duplicated. The reason for that is that the
+          # TestingBot script retries the snapshot a few times - each file here
+          # is a result of a single retry.
+          name: Diffs of TestingBot failures
+          path: testing-bot/__diff_output__/*
+
+  integration-quickstart:
+    name: (integration) quickstart
+    needs: build
+    timeout-minutes: 15
+    runs-on: ubuntu-18.04
+
+    env:
+      SELENIUM_IMAGE: selenium/standalone-chrome:4.0.0-alpha-7-prerelease-20200921
+
+    steps:
+      - name: Use Node 12
+        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+        with:
+          node-version: 12
+
+      - name: Checkout spreadsheet-viewer-quickstart repo
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+        with:
+          repository: handsontable/spreadsheet-viewer-quickstart
+          token: ${{ secrets.SV_DEV_READ_PRIVATE_REPOS }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@1de1dea89c32dcb1f37183c96fe85cfe067b682a # https://github.com/actions/download-artifact/releases/tag/v2
+        with:
+          name: dist
+          path: dist
+
+      - name: Replace the files in the quickstart repo
+        run: |
+          rm -r spreadsheet-viewer
+          cp -r dist spreadsheet-viewer
+
+      - name: Retrieve cached dependencies (quickstart)
+        id: cache-quickstart-deps
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: "node_modules"
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build the zip package
+        run: yarn prepare-zip
+
+      - name: Pull Selenium image
+        run: docker pull $SELENIUM_IMAGE
+
+      - name: Starting Selenium in Docker
+        run: |
+          docker run --rm --net=host -v /dev/shm:/dev/shm $SELENIUM_IMAGE &
+
+          DELAY=15
+          echo "Waiting $DELAY seconds for the server to start"
+          sleep $DELAY
+
+      - name: Start a static HTTP server
+        run: |
+          unzip SpreadsheetViewer.zip -d SpreadsheetViewerZip
+          cd SpreadsheetViewerZip
+          python3 -m http.server 8080 &
+
+      - name: Run tests
+        run: |
+          URLS="http://localhost:8080/examples/js/index.html http://localhost:8080/examples/react/dist/index.html http://localhost:8080/examples/vue/dist/index.html http://localhost:8080/examples/angular/dist/angular/index.html"
+          export URLS
+          yarn workspace @spreadsheet-viewer/quickstart-test run-test
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@27bce4eee761b5bc643f46a8dfb41b430c8d05f6 # https://github.com/actions/upload-artifact/releases/tag/v2.2.0
+        if: always() # Run this step even if any of the steps above fails
+        continue-on-error: true # https://github.com/handsontable/spreadsheet-viewer-dev/issues/853
+        with:
+          path: test/quickstart-*.png
+          name: Quickstart Screenshots
+
+  integration-samples:
+    name: (integration) samples
+    runs-on: ubuntu-18.04
+    needs: build
+
+    steps:
+      - name: Use Node 12
+        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+        with:
+          node-version: 12
+
+      - name: Checkout spreadsheet-viewer-samples repo
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+        with:
+          repository: handsontable/spreadsheet-viewer-samples
+          token: ${{ secrets.SV_DEV_READ_PRIVATE_REPOS }}
+          ref: develop
+          submodules: true
+
+      - name: Download build artifact into the spreadsheet-viewer-dev submodule
+        uses: actions/download-artifact@1de1dea89c32dcb1f37183c96fe85cfe067b682a # https://github.com/actions/download-artifact/releases/tag/v2
+        with:
+          name: dist
+          path: submodules/spreadsheet-viewer-dev/dist
+
+      - name: Retrieve cached dependencies
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: "node_modules"
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        # --ignore-scripts to prevent building spreadsheet-viewer-dev again
+        run: yarn install --ignore-scripts
+
+      - name: Build the app in production mode
+        run: yarn build
+
+      - name: Start the static HTTP server
+        run: cd dist && python3 -m http.server 1234 &
+
+      - name: Run tests
+        run: yarn test:snapshot:linux
+
+  performance-smoke:
+    name: Performance - smoke, n=1
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Use Node 12
+        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+        with:
+          node-version: 12
+
+      - name: Checkout branch
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+
+      - name: Retrieve cached dependencies
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: "node_modules"
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        # --ignore-scripts to prevent installing handsontable
+        run: yarn install --ignore-scripts
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@1de1dea89c32dcb1f37183c96fe85cfe067b682a # https://github.com/actions/download-artifact/releases/tag/v2
+        with:
+          name: dist
+          path: dist
+
+      - name: Smoke check the performance script
+        run: |
+          yarn serve:sv &
+          yarn perf --number-of-samples=1
+
+  performance-full:
+    name: Performance - develop compare, n=100
+    needs: build
+    if: contains(github.event.head_commit.message, 'perf') # only start this job when the commit message contains the word "perf". Via https://github.com/veggiemonk/skip-commit/issues/5
+    timeout-minutes: 90
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Use Node 12
+        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+        with:
+          node-version: 12
+
+      - name: (develop) checkout
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+        with:
+          ref: develop
+          # Retrieves submodules/handsontable with depth=1
+          submodules: true
+
+      - name: (develop) Retrieve cached dependencies
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: (develop) Install dependencies
+        run: yarn
+
+      - name: (develop) Build the app in staging mode
+        run: BUNDLE=modern NODE_ENV=staging yarn build
+
+      - name: (develop) Measure performance
+        run: |
+          echo "Start a static HTTP server"
+          yarn serve:sv &
+
+          echo "Running the perf check"
+          yarn perf --output=develop.csv
+
+          mv perf/reports/generated/develop.csv ../develop.csv
+          killall -9 node
+
+      - name: (develop) Cleanup repo before cheking out a next version
+        run: git clean -xdf
+
+      - name: (current) Checkout
+        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+        with:
+          # Retrieves submodules/handsontable with depth=1
+          submodules: true
+
+      - name: (current) Retrieve cached dependencies
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+
+      - name: (current) Install dependencies
+        run: yarn
+
+      - name: (current) Build the app in staging mode
+        run: BUNDLE=modern NODE_ENV=staging yarn build
+
+      - name: (current) Measure performance
+        run: |
+          mkdir perf/reports/generated/
+          mv ../develop.csv perf/reports/generated/develop.csv
+
+          echo "Start a static HTTP server"
+          yarn serve:sv &
+
+          echo "Running the perf check"
+          yarn perf --compare=develop.csv --output=current.csv
+
+          mv perf/reports/generated/current.csv ../current.csv
+
+      - name: Upload performance reports
+        uses: actions/upload-artifact@e7eefc491732c06d0ebbf4d4f49dcc25b4d2f3a8 # https://github.com/actions/upload-artifact/releases/tag/v2
+        with:
+          name: CSV performance reports (develop and current)
+          path: perf/reports/generated/*.csv

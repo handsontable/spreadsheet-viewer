@@ -1,0 +1,54 @@
+.crash-screen--wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  .toolbar {
+    background: transparent;
+  }
+  .crash-screen--body {
+    font-family: @font;
+    background: @crash-screen-background;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    &-info {
+      text-align: center;
+    }
+    &-text {
+      font-size: 18px;
+      color: @crash-screen-text-color;
+      margin-top: 30px;
+      margin-bottom: 13px;
+      white-space: pre-line;
+      line-height: 1.5em;
+    }
+    &-file-name {
+      font-size: 13px;
+      color: @crash-screen-file-name-color;
+      max-width: 500px;
+      margin: auto;
+      word-break: break-all;
+    }
+    .sv-button {
+      margin-top: 36px;
+    }
+    &-error {
+      font-size: 10px;
+      color: @crash-screen-error-color;
+      bottom: 11px;
+      left: 16px;
+      position: absolute;
+      span:first-child {
+        font-weight: bold;
+      }
+    }
+  }
+}
+// crash screen
+.crash-screen-illustration_svg__network {
+  fill: @crash-screen-illustration-network-color;
+}

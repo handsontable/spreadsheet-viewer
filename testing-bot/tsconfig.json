@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "ESNext"
+        ],
+        "strict": true,
+        "esModuleInterop": true,
+        "typeRoots": [
+            "../node_modules/@types",
+            "./typings"
+        ]
+    }
+}

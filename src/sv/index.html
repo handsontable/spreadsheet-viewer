@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Spreadsheet Viewer frame</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Gets the non-polyfilled/non-babel entry point with `type="module"` inlined, ensuring that it only loads in modern browsers. -->
+    <script type="module">
+      %modernBundleSource%
+    </script>
+    <!-- <script type="module" src="%modernBundlePath%"></script> -->
+
+    <!-- Insert a `nomodule` script with a proper public path link for legacy browsers-->
+    <script nomodule>
+      // Same as __webpack_public_path__ in src/sv/public-path.ts
+      const publicPath = window.location.pathname.split('/').slice(0, -1).join('/') + '/';
+
+      const $script = document.createElement('script');
+
+      $script.src = publicPath + '%legacyBundlePath%';
+      $script.setAttribute('nomodule', true);
+
+      document.body.appendChild($script)
+    </script>
+  </body>
+</html>

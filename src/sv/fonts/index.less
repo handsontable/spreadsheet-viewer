@@ -1,0 +1,35 @@
+.font-face(@font-family, @filepath, @font-style, @font-weight, @local){
+  @font-face {
+    font-family: @font-family;
+    font-style: @font-style;
+    font-weight: @font-weight;
+    src: @local,
+      url('@{filepath}.woff2') format('woff2'),
+      url('@{filepath}.woff') format('woff');
+  }
+}
+
+.font-face('Caladea'; './web/Caladea-Regular-subset'; normal; 400; local('Caladea Regular'), local('Caladea-Regular'));
+.font-face('Caladea'; './web/Caladea-Italic-subset'; italic; 400; local('Caladea Italic'), local('Caladea-Italic'));
+.font-face('Caladea'; './web/Caladea-Bold-subset'; normal; 700; local('Caladea Bold'), local('Caladea-Bold'));
+.font-face('Caladea'; './web/Caladea-BoldItalic-subset'; italic; 700; local('Caladea Bold Italic'), local('Caladea-BoldItalic'));
+  
+.font-face('Carlito'; './web/Carlito-Regular-subset'; normal; 400; local('Carlito Regular'), local('Carlito-Regular'));
+.font-face('Carlito'; './web/Carlito-Italic-subset'; italic; 400; local('Carlito Italic'), local('Carlito-Italic'));
+.font-face('Carlito'; './web/Carlito-Bold-subset'; normal; 700; local('Carlito Bold'), local('Carlito-Bold'));
+.font-face('Carlito'; './web/Carlito-BoldItalic-subset'; italic; 700; local('Carlito Bold Italic'), local('Carlito-BoldItalic'));
+  
+.font-face('Liberation Mono'; './web/LiberationMono-Regular-subset'; normal; 400; local('Liberation Mono Regular'), local('Liberation-Mono-Regular'));
+.font-face('Liberation Mono'; './web/LiberationMono-Italic-subset'; italic; 400; local('Liberation Mono Italic'), local('Liberation-Mono-Italic'));
+.font-face('Liberation Mono'; './web/LiberationMono-Bold-subset'; normal; 700; local('Liberation Mono Bold'), local('Liberation-Mono-Bold'));
+.font-face('Liberation Mono'; './web/LiberationMono-BoldItalic-subset'; italic; 700; local('Liberation Mono Bold Italic'), local('Liberation-Mono-BoldItalic'));
+
+.font-face('Liberation Sans'; './web/LiberationSans-Regular-subset'; normal; 400; local('Liberation Sans Regular'), local('Liberation-Sans-Regular'));
+.font-face('Liberation Sans'; './web/LiberationSans-Italic-subset'; italic; 400; local('Liberation Sans Italic'), local('Liberation-Sans-Italic'));
+.font-face('Liberation Sans'; './web/LiberationSans-Bold-subset'; normal; 700; local('Liberation Sans Bold'), local('Liberation-Sans-Bold'));
+.font-face('Liberation Sans'; './web/LiberationSans-BoldItalic-subset'; italic; 700; local('Liberation Sans Bold Italic'), local('Liberation-Sans-BoldItalic'));
+
+.font-face('Liberation Serif'; './web/LiberationSerif-Regular-subset'; normal; 400; local('Liberation Serif Regular'), local('Liberation-Serif-Regular'));
+.font-face('Liberation Serif'; './web/LiberationSerif-Italic-subset'; italic; 400; local('Liberation Serif Italic'), local('Liberation-Serif-Italic'));
+.font-face('Liberation Serif'; './web/LiberationSerif-Bold-subset'; normal; 700; local('Liberation Serif Bold'), local('Liberation-Serif-Bold'));
+.font-face('Liberation Serif'; './web/LiberationSerif-BoldItalic-subset'; italic; 700; local('Liberation Serif Bold Italic'), local('Liberation-Serif-BoldItalic'));
