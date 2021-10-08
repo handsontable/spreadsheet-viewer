@@ -280,6 +280,8 @@ jobs:
         with:
           node-version: 12
 
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+
       - name: Download build artifacts
         uses: actions/download-artifact@1de1dea89c32dcb1f37183c96fe85cfe067b682a # https://github.com/actions/download-artifact/releases/tag/v2
         with:
@@ -291,26 +293,26 @@ jobs:
         uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
         with:
           path: src/quickstart/node_modules
-          key: node_modules-${{ runner.os }}-${{ hashFiles('spreadsheet-viewer/src/quickstart/yarn.lock') }}-monorepo
+          key: node_modules-${{ runner.os }}-${{ hashFiles('src/quickstart/yarn.lock') }}
 
       - name: Install dependencies
         run: |
-          cd spreadsheet-viewer/src/quickstart
+          cd src/quickstart
           yarn
 
       - name: Build the zip package
         run: |
-          cd spreadsheet-viewer/src/quickstart
+          cd src/quickstart
           yarn prepare-zip
 
       - name: Pull Selenium image
         run: |
-          cd spreadsheet-viewer/src/quickstart
+          cd src/quickstart
           docker pull $SELENIUM_IMAGE
 
       - name: Starting Selenium in Docker
         run: |
-          cd spreadsheet-viewer/src/quickstart
+          cd src/quickstart
           docker run --rm --net=host -v /dev/shm:/dev/shm $SELENIUM_IMAGE &
 
           DELAY=15
@@ -319,14 +321,14 @@ jobs:
 
       - name: Start a static HTTP server
         run: |
-          cd spreadsheet-viewer/src/quickstart
+          cd src/quickstart
           unzip SpreadsheetViewer.zip -d SpreadsheetViewerZip
           cd SpreadsheetViewerZip
           python3 -m http.server 8080 &
 
       - name: Run tests
         run: |
-          cd spreadsheet-viewer/src/quickstart
+          cd src/quickstart
           URLS="http://localhost:8080/examples/js/index.html http://localhost:8080/examples/react/dist/index.html http://localhost:8080/examples/vue/dist/index.html http://localhost:8080/examples/angular/dist/angular/index.html"
           export URLS
           yarn workspace @spreadsheet-viewer/quickstart-test run-test
