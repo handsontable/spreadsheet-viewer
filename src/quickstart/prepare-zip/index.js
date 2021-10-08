@@ -6,13 +6,15 @@
 // files in the zip anyways).
 
 const path = require('path');
-const { promises: fs } = require('fs');
+const fs = require('fs');
 
 const JSZip = require('jszip');
 const bytes = require('bytes');
 const chalk = require('chalk');
 const execa = require('execa');
 const fg = require('fast-glob');
+
+const fsp = fs.promises;
 
 const outputPath = 'SpreadsheetViewer.zip';
 
@@ -44,6 +46,8 @@ const globs = [
   '!**/node_modules'
 ];
 
+const distQuickstartPath = 'spreadsheet-viewer';
+
 const reportDirectories = (files) => {
   const dirs = files.map(file => path.dirname(file)).sort();
 
@@ -57,10 +61,30 @@ const reportDirectories = (files) => {
   return sorted.map(([dir, count]) => `- (${count}) ${dir}`).join('\n');
 };
 
+const rmdirSync = async(dir) => {
+  if (fs.existsSync(dir)) {
+    fs.rmdirSync(dir, { recursive: true });
+  }
+};
+
+const copy = async(from, to) => {
+  const files = await fg([from]);
+  files.forEach((file) => {
+    const fromDirname = path.dirname(from.replace(/\/\*.*/, '/wildcard'));
+    const target = file.replace(fromDirname, to);
+    const [targetDir, recursive] = [path.dirname(target), true];
+    !fs.existsSync(targetDir) && fs.mkdirSync(targetDir, {recursive});
+    fs.lstatSync(file).isDirectory() ? fs.mkdirSync(target, {recursive}) : fs.copyFileSync(file, target);
+  });
+};
+
 const main = async() => {
   const log = (...msgs) => console.log(chalk.blue('[prepare-zip]'), ...msgs);
 
   log('cwd:', process.cwd());
+
+  rmdirSync(distQuickstartPath);
+  await copy('../../dist/**', distQuickstartPath);
 
   log('running yarn...');
   await execa('yarn', { stdio: 'inherit' });
@@ -73,7 +97,7 @@ const main = async() => {
   const zip = new JSZip();
 
   for (const file of files) { // eslint-disable-line no-restricted-syntax
-    zip.file(file, await fs.readFile(file)); // eslint-disable-line no-await-in-loop
+    zip.file(file, await fsp.readFile(file)); // eslint-disable-line no-await-in-loop
   }
 
   log(`zip contents: \n${reportDirectories(files)}`);
@@ -82,9 +106,10 @@ const main = async() => {
 
   const prettySize = bytes.format(zipBuffer.byteLength);
 
-  await fs.writeFile('SpreadsheetViewer.zip', zipBuffer);
+  await fsp.writeFile('SpreadsheetViewer.zip', zipBuffer);
 
   log(`written to: ${outputPath} (${prettySize})`);
+  rmdirSync(distQuickstartPath);
 };
 
 main();
