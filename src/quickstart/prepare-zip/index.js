@@ -73,8 +73,14 @@ const copy = async(from, to) => {
     const fromDirname = path.dirname(from.replace(/\/\*.*/, '/wildcard'));
     const target = file.replace(fromDirname, to);
     const [targetDir, recursive] = [path.dirname(target), true];
-    !fs.existsSync(targetDir) && fs.mkdirSync(targetDir, {recursive});
-    fs.lstatSync(file).isDirectory() ? fs.mkdirSync(target, {recursive}) : fs.copyFileSync(file, target);
+    if (!fs.existsSync(targetDir)) {
+      fs.mkdirSync(targetDir, { recursive });
+    }
+    if (fs.lstatSync(file).isDirectory()) {
+      fs.mkdirSync(target, { recursive });
+    } else {
+      fs.copyFileSync(file, target);
+    }
   });
 };
 
