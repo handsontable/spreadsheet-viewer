@@ -290,24 +290,27 @@ jobs:
         id: cache-quickstart-deps
         uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
         with:
-          path: "src/quickstart/node_modules"
-          key: node_modules-${{ runner.os }}-${{ hashFiles('src/quickstart/yarn.lock') }}-monorepo
+          path: src/quickstart/node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('spreadsheet-viewer/src/quickstart/yarn.lock') }}-monorepo
 
       - name: Install dependencies
-        working-directory: src/quickstart
-        run: yarn
+        run: |
+          cd spreadsheet-viewer/src/quickstart
+          yarn
 
       - name: Build the zip package
-        working-directory: src/quickstart
-        run: yarn prepare-zip
+        run: |
+          cd spreadsheet-viewer/src/quickstart
+          yarn prepare-zip
 
       - name: Pull Selenium image
-        working-directory: src/quickstart
-        run: docker pull $SELENIUM_IMAGE
+        run: |
+          cd spreadsheet-viewer/src/quickstart
+          docker pull $SELENIUM_IMAGE
 
       - name: Starting Selenium in Docker
-        working-directory: src/quickstart
         run: |
+          cd spreadsheet-viewer/src/quickstart
           docker run --rm --net=host -v /dev/shm:/dev/shm $SELENIUM_IMAGE &
 
           DELAY=15
@@ -315,15 +318,15 @@ jobs:
           sleep $DELAY
 
       - name: Start a static HTTP server
-        working-directory: src/quickstart
         run: |
+          cd spreadsheet-viewer/src/quickstart
           unzip SpreadsheetViewer.zip -d SpreadsheetViewerZip
           cd SpreadsheetViewerZip
           python3 -m http.server 8080 &
 
       - name: Run tests
-        working-directory: src/quickstart
         run: |
+          cd spreadsheet-viewer/src/quickstart
           URLS="http://localhost:8080/examples/js/index.html http://localhost:8080/examples/react/dist/index.html http://localhost:8080/examples/vue/dist/index.html http://localhost:8080/examples/angular/dist/angular/index.html"
           export URLS
           yarn workspace @spreadsheet-viewer/quickstart-test run-test
