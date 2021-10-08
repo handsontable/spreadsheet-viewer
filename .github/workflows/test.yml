@@ -291,7 +291,7 @@ jobs:
         uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
         with:
           path: "src/quickstart/node_modules"
-          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}-monorepo
+          key: node_modules-${{ runner.os }}-${{ hashFiles('src/quickstart/yarn.lock') }}-monorepo
 
       - name: Install dependencies
         working-directory: src/quickstart
