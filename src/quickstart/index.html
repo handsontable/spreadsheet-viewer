@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spreadsheet Viewer - Quick Start</title>
+  <link rel="stylesheet" href="common/primer/primer.css">
+  <link rel="stylesheet" href="common/styles.css">
+</head>
+
+<body>
+
+  <div class="Header">
+    <div class="container-lg clearfix col-12 px-3">
+      <h1 class="text-white h1">Spreadsheet Viewer</h1>
+      <p>1.0.0</p>
+    </div>
+  </div>
+
+  <div class="container-lg clearfix px-3 ">
+    <div id="protocol--file" hidden>
+      <h2 class="h2 mt-4 mb-3">ℹ Access this file through an HTTP server</h2>
+
+      <div class="markdown-body mt-4 mb-3">
+        <p>To run the Quick Start examples of Spreadsheet Viewer, start a local HTTP static file server in the package
+          root directory.</p>
+
+        <p>A few ways to do that, depending on your OS:</p>
+
+        <ul>
+          <li>using Node on any OS: <code>npx http-server -p 8080</code></li>
+          <li>using Python 3 on Windows or Linux: <code>python -m http.server 8080</code></li>
+          <li>using Python 3 on macOS: <code>python3 -m http.server 8080</code></li>
+        </ul>
+
+        <p>Then, go to <a href="http://localhost:8080">http://localhost:8080</a> in your web browser.</p>
+      </div>
+    </div>
+
+    <div id="protocol--http" hidden>
+      <h2 class="h2 mt-4 mb-3">Release package</h2>
+
+      <div class="markdown-body mt-4 mb-3">
+        <p>This package contains:</p>
+
+        <ol>
+          <li>browsable Quick Start examples for Angular, React, Vue, and plain JavaScript (this page)</li>
+          <li>the <a href="Spreadsheet Viewer.pdf">Spreadsheet Viewer product brochure</a></li>
+          <li>an uncustomized build of Spreadsheet Viewer in the directory <code>spreadsheet-viewer</code></li>
+        </ol>
+      </div>
+
+      <h2 class="h2 mt-4 mb-3">Quick Start</h2>
+
+      <div class="markdown-body mt-4 mb-3">
+        <p>Pick your framework to see the Quick Start example:</p>
+      </div>
+
+      <nav class="menu mt-4 mb-3" aria-label="Person settings">
+        <a class="menu-item d-flex flex-items-center" href="examples/js/index.html">
+          <img src="common/icons/js.svg" class="framework-logo">
+          <p class="m-0 ml-2">JavaScript</p>
+        </a>
+        <a class="menu-item d-flex flex-items-center" href="examples/angular/dist/angular/index.html">
+          <img src="common/icons/angular.svg" class="framework-logo">
+          <p class="m-0 ml-2">Angular</p>
+        </a>
+        <a class="menu-item d-flex flex-items-center" href="examples/react/dist/index.html">
+          <img src="common/icons/react.svg" class="framework-logo">
+          <p class="m-0 ml-2">React</p>
+        </a>
+        <a class="menu-item d-flex flex-items-center" href="examples/vue/dist/index.html">
+          <img src="common/icons/vue.svg" class="framework-logo">
+          <p class="m-0 ml-2">Vue</p>
+        </a>
+      </nav>
+
+      <h2 class="h2 mt-4 mb-3">External links</h2>
+
+      <div class="markdown-body mt-4 mb-3">
+        <ul>
+          <li><a href="https://handsontable.com/spreadsheet-viewer/">Spreadsheet Viewer Home Page</a></li>
+          <li><a href="https://github.com/handsontable/spreadsheet-viewer/wiki">Documentation</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+      document.getElementById('protocol--http').removeAttribute('hidden');
+    }
+    else if (window.location.protocol === 'file:') {
+      document.getElementById('protocol--file').removeAttribute('hidden');
+    }
+  </script>
+  <noscript>
+    <h1>JavaScript is required to browse the Quick Start examples</h1>
+  </noscript>
+
+</body>
+
+</html>
