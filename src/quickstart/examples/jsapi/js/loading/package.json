@@ -1,16 +1,6 @@
 {
-  "name": "install-sv-tmp-001-javascript-api-in-js-from-a-cdn",
-  "version": "1.0.0",
+  "name": "js",
+  "version": "0.0.0",
   "private": true,
-  "main": "./src/index.html",
-  "scripts": {
-    "start": "parcel ./src/index.html --open",
-    "build": "parcel build ./src/index.html"
-  },
-  "dependencies": {
-    "tmpsv": "0.0.1"
-  },
-  "devDependencies": {
-    "parcel-bundler": "^1.10.3"
-  }
+  "dependencies": {}
 }
