@@ -14,14 +14,6 @@ import * as errors from './error';
 import * as sheetHistory from './sheet-history';
 import type { SvId } from './sv-id';
 
-const supportedFileFormats = ['xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xls'];
-
-const lastElementOfArray = <T>(array: T[]): T | undefined => (array.length > 0 ? array[array.length - 1] : undefined);
-const getExtensionFromFilename = (filename: string): string | undefined => {
-  const split = filename.split('.');
-  return split.length > 1 ? lastElementOfArray(split) : undefined;
-};
-
 export type WorkbookInput = {
   type: 'arraybuffer'
   arrayBuffer: ArrayBuffer
