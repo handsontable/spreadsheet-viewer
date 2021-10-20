@@ -1,0 +1,11 @@
+version: '3.5'
+services:
+  cypress_sv_testbed:
+    image: "cypress/included:4.4.0"
+    environment:
+      - CYPRESS_baseUrl=http://172.17.0.1:1234
+      - CYPRESS_cmd
+    working_dir: /app/src/testbed
+    volumes:
+      - ../:/app
+    command: --browser chrome --headless ${CYPRESS_cmd}

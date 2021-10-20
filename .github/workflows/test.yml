@@ -342,7 +342,7 @@ jobs:
           name: Quickstart Screenshots
 
   integration-samples:
-    name: (integration) samples
+    name: (integration) testbed
     runs-on: ubuntu-18.04
     needs: build
 
@@ -352,38 +352,40 @@ jobs:
         with:
           node-version: 12
 
-      - name: Checkout spreadsheet-viewer-samples repo
-        uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
-        with:
-          repository: handsontable/spreadsheet-viewer-samples
-          token: ${{ secrets.SV_DEV_READ_PRIVATE_REPOS }}
-          ref: develop
-          submodules: true
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
 
-      - name: Download build artifact into the spreadsheet-viewer-dev submodule
+      - name: Download build artifacts
         uses: actions/download-artifact@1de1dea89c32dcb1f37183c96fe85cfe067b682a # https://github.com/actions/download-artifact/releases/tag/v2
         with:
           name: dist
-          path: submodules/spreadsheet-viewer-dev/dist
+          path: dist
 
-      - name: Retrieve cached dependencies
+      - name: Retrieve cached dependencies (testbed)
+        id: cache-testbed-deps
         uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
         with:
-          path: "node_modules"
-          key: node_modules-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          path: src/testbed/node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('src/testbed/yarn.lock') }}
 
       - name: Install dependencies
-        # --ignore-scripts to prevent building spreadsheet-viewer-dev again
-        run: yarn install --ignore-scripts
+        run: |
+          cd src/testbed
+          yarn
 
       - name: Build the app in production mode
-        run: yarn build
+        run: |
+          cd src/testbed
+          yarn build
 
       - name: Start the static HTTP server
-        run: cd dist && python3 -m http.server 1234 &
+        run: |
+          cd src/testbed/dist
+          python3 -m http.server 1234 &
 
       - name: Run tests
-        run: yarn test:snapshot:linux
+        run: |
+          cd src/testbed
+          yarn test:snapshot:linux
 
   performance-smoke:
     name: Performance - smoke, n=1

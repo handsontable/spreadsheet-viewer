@@ -4,7 +4,7 @@ This repository contains sample usage of **[Spreadsheet Viewer](https://github.c
 
 It contains:
 
-* Drag and drop demo: [see source](./src/drag-drop-demo)
+* Drag and drop demo: [see source](./src/testbed)
 
 Spreadsheet Viewer documentation is available in [SV Wiki](https://github.com/handsontable/spreadsheet-viewer/wiki).
   
@@ -23,7 +23,7 @@ Call `yarn start` and open [http:/localhost:1234](http:/localhost:1234) in your 
 This command `yarn start` builds the projects and starts the development server at port `1234`. To run at a different port, provide the port number with the `-p` argument, e.g. `yarn start -p 8080`.
 
 Specifically, this command:
-  - builds the demo project located in `src/drag-drop-demo` and watches for file changes.
+  - builds the demo project located in `src/testbed` and watches for file changes.
   - starts a static file server for development.
   - when a change is observed, the relevant project is rebuilt and all clients that have loaded a page from the static file server automatically refresh.
 
@@ -62,8 +62,8 @@ Run a specific test:
 
 ```
 # Bash
-CYPRESS_cmd='--spec cypress/integration/drag-drop-demo/request.spec.js' yarn test:snapshot        # For Mac & Windows
-CYPRESS_cmd='--spec cypress/integration/drag-drop-demo/request.spec.js' yarn test:snapshot:linux  # For Linux
+CYPRESS_cmd='--spec cypress/integration/testbed/request.spec.js' yarn test:snapshot        # For Mac & Windows
+CYPRESS_cmd='--spec cypress/integration/testbed/request.spec.js' yarn test:snapshot:linux  # For Linux
 ```
 
 More options: https://docs.cypress.io/guides/guides/command-line.html

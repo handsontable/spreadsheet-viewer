@@ -1,17 +1,17 @@
 import { execSync } from 'child_process';
 import path from 'path';
 import fs from 'fs';
-import packageJson from './submodules/spreadsheet-viewer-dev/package.json';
+import packageJson from '../../package.json';
 
 const { resolve } = require('path');
 const { readdir } = require('fs').promises;
 
 const gitShaCommand = 'git rev-parse HEAD';
 const distPath = path.join(__dirname, 'dist');
-const demoPath = path.join(distPath, 'src', 'drag-drop-demo');
-const svPath = path.join(__dirname, 'submodules', 'spreadsheet-viewer-dev', 'dist', 'sv');
-const sourceFixturesPath = path.join(__dirname, 'cypress', 'fixtures');
-const distFixturesPath = path.join(distPath, 'cypress', 'fixtures');
+const demoPath = path.join(distPath, 'src', 'testbed');
+const svPath = path.join(__dirname, '..', '..', 'dist', 'sv');
+// const sourceFixturesPath = path.join(__dirname, '..', '..', 'cypress', 'fixtures');
+// const distFixturesPath = path.join(distPath, 'cypress', 'fixtures');
 const distSvAssetsPath = path.join(distPath, 'sv-assets');
 
 type BuildInfo = {
@@ -60,7 +60,7 @@ const addBannerTemplate = (content: string) => {
 const processedExtensions = ['.html', '.css', '.js'];
 
 const { version } = packageJson;
-const sha = execSync(gitShaCommand, { cwd: './submodules/spreadsheet-viewer-dev' }).toString().substring(0, 7);
+const sha = execSync(gitShaCommand).toString().substring(0, 7);
 const dateConfig = {
   weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'Europe/Warsaw', timeZoneName: 'short'
 };
@@ -107,18 +107,18 @@ export const runPostBuildScripts = async() => {
   });
 
   // copy test fixtures to dist/
-  findFilesFromDir(sourceFixturesPath).forEach((file) => {
+  /* findFilesFromDir(sourceFixturesPath).forEach((file) => {
     if (!file || !(file.endsWith('xls') || file.endsWith('xlsx'))) {
       return;
     }
 
     copyFileIfOutdated(file, sourceFixturesPath, distFixturesPath);
-  });
+  }); */
 
   // copy submodule/spreadsheet-viewer-dev/dist to dist/sv-assets
   const svPathFiles = await findFilesFromDirRecursive(svPath);
   Array.from(svPathFiles).forEach((file) => {
-    if (!file || file.endsWith('xls') || file.endsWith('xlsx') || file.includes('drag-drop-demo')) {
+    if (!file || file.endsWith('xls') || file.endsWith('xlsx') || file.includes('testbed')) {
       return;
     }
 

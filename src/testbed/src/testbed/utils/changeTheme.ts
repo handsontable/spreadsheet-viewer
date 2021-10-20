@@ -1,6 +1,6 @@
 // Press T key to toggle theme between light and dark
 
-import type { SpreadsheetViewerInstance, ThemeStylesheet } from '~/submodules/spreadsheet-viewer-dev/dist/client-library/clientLibrary';
+import type { SpreadsheetViewerInstance, ThemeStylesheet } from '~/../../dist/client-library/clientLibrary';
 import { parseURLSearchParams } from './url';
 
 const params = parseURLSearchParams(window.location.search);

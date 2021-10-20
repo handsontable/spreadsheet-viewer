@@ -1,4 +1,4 @@
-import type { SpreadsheetViewerInstance } from '~/submodules/spreadsheet-viewer-dev/dist/client-library/clientLibrary';
+import type { SpreadsheetViewerInstance } from '~/../../dist/client-library/clientLibrary';
 
 const keysCurrentlyDown = {};
 const altKey = 'Alt';

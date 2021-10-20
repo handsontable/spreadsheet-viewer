@@ -15,7 +15,7 @@ import {
   SpreadsheetViewer,
   SpreadsheetViewerError,
   VIEW_ACTIVATED
-} from '~/submodules/spreadsheet-viewer-dev/dist/client-library/clientLibrary';
+} from '~/../../dist/client-library/clientLibrary';
 
 const dropzoneElement = document.querySelector('.dropzone');
 const svContainer = document.querySelector('#spreadsheet-viewer') as HTMLDivElement;

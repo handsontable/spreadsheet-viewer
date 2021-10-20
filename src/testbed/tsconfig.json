@@ -1,6 +1,6 @@
 {
   "include": [
-    "src/drag-drop-demo"
+    "src/testbed"
   ],
   "compilerOptions": {
     "lib": [
