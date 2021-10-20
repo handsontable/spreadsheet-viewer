@@ -1,13 +1,9 @@
 import { Miniflare, Request } from 'miniflare';
 import { readFileSync } from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import assert from 'assert';
 import fetch from 'node-fetch';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const script = readFileSync(`${__dirname}/../index.js`);
+const script = readFileSync(new URL('../index.js', import.meta.url));
 const mf = new Miniflare({ script });
 
 const testProxyRoot = 'http://localhost:8787/';
