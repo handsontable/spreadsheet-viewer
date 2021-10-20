@@ -21,6 +21,7 @@ const outputPath = 'SpreadsheetViewer.zip';
 const globs = [
   'index.html',
   'README.md',
+  'LICENSE.txt',
   'Spreadsheet Viewer.pdf',
 
   'common/**',
@@ -91,6 +92,7 @@ const main = async() => {
 
   rmdirSync(distQuickstartPath);
   await copy('../../dist/**', distQuickstartPath);
+  await copy('../../LICENSE.txt', '.');
 
   log('running yarn...');
   await execa('yarn', { stdio: 'inherit' });
