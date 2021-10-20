@@ -341,6 +341,14 @@ jobs:
           path: src/quickstart/test/quickstart-*.png
           name: Quickstart Screenshots
 
+      - name: Upload ZIP package
+        uses: actions/upload-artifact@27bce4eee761b5bc643f46a8dfb41b430c8d05f6 # https://github.com/actions/upload-artifact/releases/tag/v2.2.0
+        if: always() # Run this step even if any of the steps above fails
+        continue-on-error: true # https://github.com/handsontable/spreadsheet-viewer-dev/issues/853
+        with:
+          path: src/quickstart/SpreadsheetViewer.zip
+          name: ZIP package (double zipped)
+
   integration-samples:
     name: (integration) testbed
     runs-on: ubuntu-18.04
