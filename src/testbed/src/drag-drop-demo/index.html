@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self';">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Drag Drop demo of Spreadsheet Viewer</title>
+  <link rel="stylesheet" type="text/css" href="./light.less" data-theme-name="light" disabled />
+  <link rel="stylesheet" type="text/css" href="./dark.less" data-theme-name="dark" />
+</head>
+
+<body>
+
+  <div class="wrapper">
+
+    <div class="files-list">
+      <a class="files-list-element" href="../../cypress/fixtures/sample-file.xlsx">
+        <p class="files-list-element-title">Sample XLSX file</p>
+        <p class="files-list-element-description">
+          Showcase of features intended to promote the first public launch of Spreadsheet Viewer
+        </p>
+      </a>
+      <a class="files-list-element" href="../../cypress/fixtures/functions.xlsx">
+        <p class="files-list-element-title">Functions</p>
+        <p class="files-list-element-description">
+          Results of sample Excel formulas
+        </p>
+      </a>
+      <a class="files-list-element" href="../../cypress/fixtures/styling.xlsx">
+        <p class="files-list-element-title">Styling</p>
+        <p class="files-list-element-description">
+          Fonts, alignment, indentation, fills
+        </p>
+      </a>
+      <a class="files-list-element" href="../../cypress/fixtures/charts.xlsx">
+        <p class="files-list-element-title">Charts</p>
+        <p class="files-list-element-description">
+          Line, bar, pie and other kinds of charts. Requires `?flags=charts` in the URL
+        </p>
+      </a>
+      <a class="files-list-element" href="../../cypress/fixtures/embeds.xlsx">
+        <p class="files-list-element-title">Images</p>
+        <p class="files-list-element-description">
+          Embedded GIF, SVG, JPEG, PNG images
+        </p>
+      </a>
+      <a class="files-list-element" href="../../cypress/fixtures/cell-types.xlsx">
+        <p class="files-list-element-title">Cell types</p>
+        <p class="files-list-element-description">
+          Text, number, date and other formats
+        </p>
+      </a>
+      <a class="files-list-element" href="../../cypress/fixtures/merged-cells.xlsx">
+        <p class="files-list-element-title">Merged cells</p>
+        <p class="files-list-element-description">
+          Merged cells with text
+        </p>
+      </a>
+      <a class="files-list-element" href="../../cypress/fixtures/text-alignment.xlsx">
+        <p class="files-list-element-title">Text alignment</p>
+        <p class="files-list-element-description">
+          Horizontal and vertical text alignment
+        </p>
+      </a>
+      <a class="files-list-element" href="../../cypress/fixtures/borders.xlsx">
+        <p class="files-list-element-title">Borders</p>
+        <p class="files-list-element-description">
+          Borders of different color and width
+        </p>
+      </a>
+    </div>
+
+    <div class="dropzone">
+      <div class="file-drop">
+        <input type="file" class="file-input" id="fileInput" />
+        <p>Drop file here</p>
+        <p id="toggle-files-list">Press F or click here for sample files</p>
+      </div>
+      <div class="build-info">
+        <p>Version: <a href="https://github.com/handsontable/spreadsheet-viewer-samples/releases/tag/%VERSION%">%VERSION%</a> (<a href="https://github.com/handsontable/spreadsheet-viewer-samples/commit/%CODE_VERSION%">%CODE_VERSION%</a>)</p>
+        <p>Build date: %BUILD_DATE%</p>
+      </div>
+      <div id="spreadsheet-viewer"></div>
+      <img class="image-overlay" tabindex="-1" />
+    </div>
+
+  </div>
+
+<script src="./index.ts"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "include": [
+    "src/drag-drop-demo"
+  ],
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "es5",
+      "es6"
+    ],
+    "paths": {
+      "~/*": [
+        "./*"
+      ]
+    },
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  }
+}

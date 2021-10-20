@@ -1,0 +1,26 @@
+.idea/
+.vscode/
+.history/
+node_modules
+build/
+tmp/
+temp/
+vendor
+*.env
+dist
+.cache
+uploads
+.DS_Store
+/cypress/.DS_Store
+/cypress/videos/
+/perf/reports/generated/
+
+# cypress failed test diffs
+__diff_output__
+
+# excel lock files
+~$*.xlsx
+
+# test coverage command output `yarn cov:unit`
+.nyc_output
+coverage
