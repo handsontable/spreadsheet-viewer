@@ -1,6 +1,7 @@
 import * as fileNames from '../../support/fileNames/xlsx';
 
 const SV_HOT_MASTER_SELECTOR = 'div[role=tabpanel] .ht_master';
+const thirdPartyXlsxLocation = 'https://handsontable.com/static/resources/ModSV/sample-file.xlsx';
 
 context('Load', () => {
   it('should load via a remote URL', () => {
@@ -10,6 +11,22 @@ context('Load', () => {
       $window.postMessage({
         name: 'loadWorkbook',
         workbook: `/cypress/fixtures/${fileNames.FILE_GENERAL}`,
+        sheet: 0
+      });
+    });
+
+    cy.get(SV_HOT_MASTER_SELECTOR); // wait for Handsontable to be rendered
+
+    cy.matchUISnapshot();
+  });
+
+  it('should load via a remote URL that do not expose CORS headers, thanks to CORS proxy', () => {
+    cy.visit('/index.html?licenseKey=demo');
+
+    cy.window().then(($window) => {
+      $window.postMessage({
+        name: 'loadWorkbook',
+        workbook: thirdPartyXlsxLocation,
         sheet: 0
       });
     });
