@@ -3,7 +3,7 @@ import { PerformanceMarker } from './markers';
 import { executePerformanceMeasurement, PerformanceMeasurement } from './measurement';
 import { COLORS, displayReportInConsole, displayReportsComparisonInConsole } from './reports/consoleReport';
 import { generateCSVReport, readCSVReport } from './reports/csvReport';
-import { PerformanceMeasurementReport, PerformanceMeasurementStatistic } from './reports/report';
+import { PerformanceMeasurementReport } from './reports/report';
 import { getScriptArgs } from './reports/scriptArgs';
 import { STATISTICS } from './statistics';
 

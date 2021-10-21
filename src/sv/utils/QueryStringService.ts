@@ -1,4 +1,4 @@
-import { Either, Right, Left } from 'purify-ts/Either';
+import { Right, Left } from 'purify-ts/Either';
 
 import {
   Codec, string, optional, GetInterface, boolean
