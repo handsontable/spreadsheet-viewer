@@ -1,6 +1,6 @@
 import Puppeteer, { Browser } from 'puppeteer';
 import * as readline from 'readline';
-import config, { PerformanceMeasurementsConfig } from './config';
+import config from './config';
 import {
   AppMarkersTimings,
   AppPerformanceMarker,

@@ -17,7 +17,7 @@ import {
 import { IdToSpreadsheetStyleMap } from '../../entities/SpreadsheetStyleMap';
 import { extendDesiredFontWithFallbacks } from './preloadFonts';
 import {
-  SpreadsheetStyle, BorderWidth, BorderStyle, BorderStyles
+  SpreadsheetStyle, BorderWidth, BorderStyles
 } from '../../entities/SpreadsheetStyle';
 import { StringifiedCoords, stringifyCoords } from './HorizontalOverlapPlugin';
 import { getObjectRenderer } from './embeds';

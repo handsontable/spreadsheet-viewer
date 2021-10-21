@@ -6,7 +6,7 @@
 
 /* eslint-disable jsx-a11y/aria-role */
 import * as React from 'react';
-import { withStyles, StyledComponentProps, WithStyles } from '@material-ui/core/styles';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import type { TabScrollButtonProps } from '@material-ui/core/TabScrollButton';
 import { CaretLeft } from '../icons/CaretLeft';
