@@ -1,6 +1,6 @@
 {
   "name": "spreadsheet-viewer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src/sv/index.tsx",
   "repository": "git@github.com:handsontable/spreadsheet-viewer.git",
   "author": "Handsoncode <hello@handsontable.com>",
