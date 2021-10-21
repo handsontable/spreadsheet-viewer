@@ -49,15 +49,15 @@ Cypress.Commands.add('firstTabShouldHaveTextInDemo', (text) => {
 
 // urlParameters is an optional string, but if it is not empty, it should begin with ?
 Cypress.Commands.add('uploadWorkbookInDemo', (fileName, urlParameters = '') => {
-  // see https://github.com/palmerhq/cypress-image-snapshot for configuration of .upload()
+  // see https://github.com/palmerhq/cypress-image-snapshot for configuration of .attachFile()
   const url = '/src/testbed/index.html';
   if (urlParameters && urlParameters.indexOf('?') !== 0) {
     throw new Error('urlParameters must be empty or begin with ?');
   }
   cy.visit(`${url}${urlParameters}`);
 
-  return cy.fixture(fileName, 'base64').then((fileContent) => {
-    cy.get(DEMO_FILE_INPUT_SELECTOR).upload({
+  return cy.fixture(fileName, 'binary').then((fileContent) => {
+    cy.get(DEMO_FILE_INPUT_SELECTOR).attachFile({
       fileContent, fileName, encoding: 'binary', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
     cy.get(`${DEMO_START_SCREEN_OFF_SELECTOR} ${DEMO_IFRAME_SELECTOR}`, { timeout: fileLoadingTimeout }).should('exist');
