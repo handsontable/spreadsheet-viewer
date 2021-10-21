@@ -1,0 +1,34 @@
+body {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+  background-color: #fff;
+  color: #373737;
+}
+
+#spreadsheet-viewer {
+  height: 600px;
+  width: 100%;
+  border: 2px dashed #6c82dc;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 0.1em;
+}
+
+.nomodule-message {
+  display: none;
+}
+
+body.nomodule .nomodule-message {
+  font-size: 20px;
+  color: red;
+  display: block;
+}
+
+body.nomodule #spreadsheet-viewer  {
+  display: none;
+}
+
+.framework-logo {
+  width: 20px;
+}

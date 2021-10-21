@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "name": "@spreadsheet-viewer/prepare-zip",
+  "scripts": {
+    "build": "echo no-op"
+  },
+  "devDependencies": {
+    "bytes": "^3.1.0",
+    "chalk": "^4.1.0",
+    "execa": "^5.0.0",
+    "fast-glob": "^3.2.4",
+    "jszip": "^3.5.0"
+  }
+}

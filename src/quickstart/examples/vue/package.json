@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "name": "@spreadsheet-viewer/quickstart-vue",
+  "scripts": {
+    "build": "rm -rf dist/* && parcel build src/index.html --out-dir dist --public-url ./"
+  },
+  "devDependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "@vue/component-compiler-utils": "^3.2.0",
+    "parcel": "^1.12.4",
+    "vue": "^2.6.12",
+    "vue-hot-reload-api": "^2.3.4",
+    "vue-template-compiler": "^2.6.12"
+  }
+}

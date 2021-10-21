@@ -1,0 +1,14 @@
+{
+  "name": "spreadsheet-viewer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "spreadsheet-viewer/client-library/clientLibrary.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Handsoncode <hello@handsontable.com>",
+  "license": "SEE LICENSE IN LICENSE.txt"
+}

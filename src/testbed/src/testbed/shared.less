@@ -1,0 +1,167 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  display: flex;
+  flex-direction: column;
+  background-color: @dropzone-background;
+  color: @dropzone-font-color;
+}
+
+.wrapper {
+  display: flex;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.files-list {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background: @tabs-background;
+  padding: 10px 0;
+  overflow-y: scroll;
+  max-width: 295px;
+}
+
+.show.files-list {
+  display: flex;
+}
+
+.files-list-element {
+  width: 90%;
+  background: @no-active-tab-background;
+  border-radius: 5px;
+  padding: 17px 10px 27px 20px;
+  margin-bottom: 12px;
+  color: @no-active-tab-font-color;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    color: @no-active-tab-hover-font-color;
+  }
+  &:active {
+    outline: -webkit-focus-ring-color auto 5px;
+  }
+  &:focus {
+    color: @active-tab-font-color;
+    background: @active-tab-background;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.files-list-element-title {
+  padding-bottom: 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.files-list-element-description {
+  font-size: 14px;
+}
+
+#toggle-files-list:hover {
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  padding: 10px;
+  background-color: @dropzone-background;
+  color: @dropzone-font-color;
+  &.show {
+    padding: 0;
+  }
+}
+
+.image-overlay {
+  position: fixed;
+  opacity: 0.5;
+}
+
+.file-drop {
+  border: 3px dashed @dropzone-font-color;
+  font-size: 2em;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  margin-bottom: 10px;
+
+  .file-input {
+    display: none;
+  }
+
+  p {
+    margin: 0;
+    &:nth-of-type(2) {
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+  }
+}
+
+.ok {
+  opacity: 0.5;
+  .file-drop {
+    border-color: green;
+    background-color: rgba(0,255,0,0.1);
+  }
+}
+
+#spreadsheet-viewer {
+  border-width: 0;
+  flex: 4;
+  display: none;
+  z-index: 1;
+}
+
+.show {
+  #spreadsheet-viewer {
+    display: block;
+  }
+  .file-drop {
+    display: none;
+  }
+}
+
+.image-overlay {
+  position: fixed;
+  opacity: 0.5;
+  z-index: 2;
+}
+
+.build-info {
+  position: absolute;
+  bottom: 35px;
+  right: 40px;
+  text-align: right;
+  font-size: 12px;
+}
+
+.build-info p {
+  margin: 0;
+}
+
+.build-info a {
+  color: @dropzone-font-color
+}
+
+.build-info a:hover {
+  opacity: 0.75;
+}

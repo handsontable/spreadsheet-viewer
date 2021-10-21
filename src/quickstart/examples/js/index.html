@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spreadsheet Viewer - Quick Start - JavaScript</title>
+  <link rel="stylesheet" href="../../common/primer/primer.css">
+  <link rel="stylesheet" href="../../common/styles.css">
+</head>
+
+<body>
+
+  <div class="Header">
+    <div class="container-lg clearfix col-12 px-3">
+      <h1 class="text-white h1">Spreadsheet Viewer</h1>
+      <p>1.0.0</p>
+    </div>
+  </div>
+
+  <div class="container-lg clearfix px-3">
+
+    <nav aria-label="Breadcrumb" class="mt-4">
+      <ol>
+        <li class="breadcrumb-item"><a href="../../index.html">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page">JavaScript</li>
+      </ol>
+    </nav>
+
+    <div class="pagehead mt-3 mb-3">
+      <h2 class="h2">Integration example using plain JavaScript (ECMAScript 6)</h2>
+    </div>
+
+    <div class="markdown-body mt-4 mb-3">
+      <p>In the below quick start example, a preview of a sample XLSX file is inserted into a DOM
+        container using <a href="https://github.com/handsontable/spreadsheet-viewer/wiki/JavaScript-API">Spreadsheet Viewer JavaScript API</a>.</p>
+
+      <p>This example uses ECMAScript 6, which makes it simple to edit but <a href="https://github.com/handsontable/spreadsheet-viewer/wiki/JavaScript-API">it needs to be transpiled to work in IE11</a>. 
+        See other examples (Angular, React, Vue) that are transpiled to work in all browsers, including IE11.</p>
+    </div>
+
+    <div id="spreadsheet-viewer"></div>
+
+    <div class="markdown-body mt-4 mb-3">
+      <h3>Source</h3>
+
+      <p>Open the file <code>examples/js/index.html</code> in your code editor to see the source code. 
+        To make changes to this example, simply edit the source code and refresh the page.</p>
+
+      <p>The source code follows the 
+        <a href="https://github.com/handsontable/spreadsheet-viewer/wiki/Installation">Installation</a> guide.</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { SpreadsheetViewer } from '../../spreadsheet-viewer/client-library/clientLibrary.js';
+
+    SpreadsheetViewer({
+      container: document.querySelector('div#spreadsheet-viewer'),
+      assetsUrl: '../../spreadsheet-viewer/sv/index.html'
+    })
+      .then(instance => {
+        instance.configure({
+          licenseKey: 'evaluation' // contact us to order a license key for commercial use beyond evaluation
+        })
+        instance.loadWorkbook('../../common/workbooks/sample-file.xlsx', 0);
+      })
+      .catch(error => {
+        console.error(error.message);
+      });
+  </script>
+
+</body>
+
+</html>

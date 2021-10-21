@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "workspaces": [
+    "examples/*",
+    "prepare-zip",
+    "test"
+  ],
+  "scripts": {
+    "prepare-zip": "node prepare-zip"
+  }
+}

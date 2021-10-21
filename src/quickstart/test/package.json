@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "version": "0.0.0",
+  "name": "@spreadsheet-viewer/quickstart-test",
+  "scripts": {
+    "build": "echo no-op",
+    "run-test": "cross-env TS_NODE_COMPILER_OPTIONS={\\\"module\\\":\\\"commonjs\\\"} mocha --timeout 30678 -r ts-node/register -r tsconfig-paths/register spec.ts"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^14.10.2",
+    "@types/selenium-webdriver": "^4.0.10",
+    "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "mocha": "^8.1.3",
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "ts-node": "^9.0.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.0.2"
+  }
+}

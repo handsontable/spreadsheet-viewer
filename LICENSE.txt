@@ -1,0 +1,16 @@
+Copyright (c) HANDSONCODE sp. z o. o.
+
+SPREADSHEET VIEWER is software distributed by HANDSONCODE sp. z o. o.,
+a Polish corporation, based in Gdynia, Poland, at 96/98 Aleja Zwycięstwa,
+registered with the National Court Register under number 538651,
+EU tax ID number: PL5862294002, share capital: PLN 62,800.00.
+
+This software is protected by applicable copyright laws, including
+international treaties. The terms of use are subject to negotiations.
+
+HANDSONCODE PROVIDES THIS SOFTWARE ON AN “AS IS” BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND. IN NO EVENT
+AND UNDER NO LEGAL THEORY, SHALL HANDSONCODE BE LIABLE
+TO YOU FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT, SPECIAL,
+INCIDENTAL, OR CONSEQUENTIAL DAMAGES OF ANY CHARACTER ARISING
+FROM USE OR INABILITY TO USE THIS SOFTWARE.
