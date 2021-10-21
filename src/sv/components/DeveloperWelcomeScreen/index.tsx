@@ -8,6 +8,10 @@ export const DeveloperWelcomeScreen = () => {
         Hello, developer!
       </p>
       <p>
+        You have successfully reached the frame assets of Spreadsheet Viewer. However, the integration is
+        not done, because this document was not initialized by one of the APIs mentioned below.
+      </p>
+      <p>
         This app is intended to be run:
       </p>
       <ul>
