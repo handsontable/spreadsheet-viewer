@@ -9,7 +9,7 @@ const App = () => (
     <div className="Header">
       <div className="container-lg clearfix col-12 px-3">
         <h1 className="text-white h1">Spreadsheet Viewer</h1>
-        <p>1.0.0</p>
+        <p>1.0.1</p>
       </div>
     </div>
 
