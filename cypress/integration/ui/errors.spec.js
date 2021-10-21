@@ -10,8 +10,9 @@ const emptyFilePath = `/cypress/fixtures/${FILE_GENERAL}`;
 context('Errors', () => {
   beforeEach(() => {
     cy.on('uncaught:exception', (err) => {
-      expect(err.message).to.include('This is a simulation of an error');
-      return false;
+      if (err.message.includes('This is a simulation of an error') || err.message.includes(REACT_INITIALIZATION_ERROR)) {
+        return false;
+      }
     });
   });
 

@@ -2,7 +2,7 @@ import 'cypress-file-upload';
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
-import { FEATURE_FULL_PAGE } from './features';
+import { FEATURE_FULL_PAGE, FEATURE_CHARTS } from './features';
 
 const SV_TAB_SELECTOR = '.sv-tabs button[role="tab"]';
 const SV_SELECTED_TAB_SELECTOR = '[aria-selected=true].Mui-selected';
@@ -79,8 +79,10 @@ Cypress.Commands.add('loadSheetInSV', (fileName, tabIndex, themeStylesheet = 'da
   cy.visit(request, mobileConfig);
   cy.get(`${SV_BODY_LOADED_SELECTOR} ${!shouldSvBeInFullPageMode ? SV_TAB_SELECTOR : ''}`, { timeout: fileLoadingTimeout });
   cy.get(`${SV_BODY_LOADED_SELECTOR} ${SV_CONTENT_LOADED_SELECTOR}`, { timeout: fileLoadingTimeout }); // wait for Handsontable to be rendered
-  // sometimes charts on the first tab doesn't render. Need to wait for them longer. This shouldn't be removed
-  cy.wait(500);
+  if (flags.includes(FEATURE_CHARTS)) {
+    // sometimes charts on the first tab doesn't render. Need to wait for them longer. This shouldn't be removed
+    cy.wait(1000);
+  }
 });
 
 Cypress.Commands.add('matchErrorCode', (errorCode) => {

@@ -69,6 +69,7 @@ context('Mobile', () => {
 
   it('should not have the frozen line', () => { // because frozen panes are disabled on mobile
     cy.loadSheetInSV(OBJECTS_CHARTS_AND_FROZEN, 6, 'dark', true, [], true);
+    cy.wait(500); // wait for the Material UI Tabs animation to finish https://github.com/mui-org/material-ui/blob/512896973499adbbda057e7f3685d1b23cc02de9/packages/mui-material/src/Tabs/Tabs.js#L443
     cy.matchUISnapshot();
   });
 });
