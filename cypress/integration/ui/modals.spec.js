@@ -32,6 +32,6 @@ context('Modals', () => {
     // close modal
     cy.wait(100); // waiting fixes flaky errors listed in https://github.com/handsontable/spreadsheet-viewer-dev/pull/738#pullrequestreview-499391221
     cy.get(`${MODAL_FEEDBACK} ${CLOSE_MODAL_ICON}`).click();
-    cy.get(MODAL_FEEDBACK).should('not.be.visible');
+    cy.get(MODAL_FEEDBACK).should('not.exist');
   });
 });

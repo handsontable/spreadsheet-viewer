@@ -1,11 +1,8 @@
 import 'cypress-file-upload';
-
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
-
-import { FEATURE_FULL_PAGE } from './features';
+import { FEATURE_FULL_PAGE, FEATURE_CHARTS } from './features';
 
 const SV_TAB_SELECTOR = '.sv-tabs button[role="tab"]';
-const SV_SELECTED_TAB_SELECTOR = '[aria-selected=true].Mui-selected';
 const SV_BODY_LOADED_SELECTOR = 'body[data-webfonts-loaded][data-embeds-loaded]';
 const SV_HOT_MASTER_SELECTOR = 'div[role=tabpanel] .ht_master';
 const SV_SCROLL_CONTAINER_SELECTOR = `${SV_HOT_MASTER_SELECTOR} .wtHolder`;
@@ -17,25 +14,6 @@ const LICENSE_KEY = 'demo';
 const EXCEL_EXTENSIONS = ['xls', 'xlsx'];
 
 addMatchImageSnapshotCommand();
-
-Cypress.Commands.add('getSheetTabInSV', (tabIndex) => {
-  const tabNaturalNumber = tabIndex + 1;
-  const desiredTabSelector = `${SV_TAB_SELECTOR}:nth-child(${tabNaturalNumber})`;
-
-  return cy.get(desiredTabSelector, { timeout: fileLoadingTimeout });
-});
-
-Cypress.Commands.add('changeSheetInSV', (tabIndex) => {
-  const tabNaturalNumber = tabIndex + 1;
-  const desiredTabSelector = `${SV_BODY_LOADED_SELECTOR} ${SV_TAB_SELECTOR}:nth-child(${tabNaturalNumber})`;
-  cy.getSheetTabInSV(tabIndex)
-    .click({ force: true })
-    // This delay was necessary after the changes in
-    // https://github.com/handsontable/spreadsheet-viewer-dev/pull/654
-    .wait(500)
-    .get(`${desiredTabSelector}${SV_SELECTED_TAB_SELECTOR}`)
-    .get(SV_CONTENT_LOADED_SELECTOR); // wait for Handsontable to be rendered
-});
 
 Cypress.Commands.add('assertColumnWidths', (widths) => {
   widths.forEach((width, index) => {
@@ -79,8 +57,10 @@ Cypress.Commands.add('loadSheetInSV', (fileName, tabIndex, themeStylesheet = 'da
   cy.visit(request, mobileConfig);
   cy.get(`${SV_BODY_LOADED_SELECTOR} ${!shouldSvBeInFullPageMode ? SV_TAB_SELECTOR : ''}`, { timeout: fileLoadingTimeout });
   cy.get(`${SV_BODY_LOADED_SELECTOR} ${SV_CONTENT_LOADED_SELECTOR}`, { timeout: fileLoadingTimeout }); // wait for Handsontable to be rendered
-  // sometimes charts on the first tab doesn't render. Need to wait for them longer. This shouldn't be removed
-  cy.wait(500);
+  if (flags.includes(FEATURE_CHARTS)) {
+    // sometimes charts on the first tab doesn't render. Need to wait for them longer. This shouldn't be removed
+    cy.wait(1000);
+  }
 });
 
 Cypress.Commands.add('matchErrorCode', (errorCode) => {
