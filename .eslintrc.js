@@ -79,7 +79,7 @@ module.exports = {
   },
   "overrides": [
     {
-      "files": ["cypress/**/*"],
+      "files": ["cypress/**/*", "src/testbed/cypress/**/*"],
       "rules": {
         "no-undef": "off",
       }
