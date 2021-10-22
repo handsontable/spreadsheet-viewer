@@ -40,53 +40,112 @@ describe('CORS proxy', () => {
     });
   });
 
-  const fileUrl = 'https://handsontable.com/static/resources/ModSV/sample-file.xlsx';
+  const existingFileUrl = 'https://handsontable.com/static/resources/ModSV/sample-file.xlsx';
+  const nonexistingFileUrl = 'https://www.google.com/404';
 
-  describe('Correct request', () => {
-    it('should add CORS headers to the HEAD request', async() => {
-      const directResponse = await fetch(fileUrl);
-      const directHeaderKeys = Array.from(directResponse.headers.keys()).map(x => x.toLowerCase());
-      assert.equal(directResponse.status, 200, 'Original status is 200');
-      assert.equal(
-        directHeaderKeys.includes('access-control-allow-origin'),
-        false,
-        'Original response does not have CORS headers'
-      );
-
-      const proxiedResponse = await mf.dispatchFetch(`${testProxyUrl}?target=${fileUrl}`);
-      const proxiedHeaderKeys = Array.from(proxiedResponse.headers.keys()).map(x => x.toLowerCase());
-      assert.equal(proxiedResponse.status, 200, 'Proxied status is 200');
-      assert.equal(
-        proxiedHeaderKeys.includes('access-control-allow-origin'),
-        true,
-        'Proxied response has CORS headers'
-      );
+  describe('Correct HEAD request with a 200 response', () => {
+    it('the direct response does not have CORS headers', async() => {
+      const direct = await fetch(existingFileUrl, { method: 'HEAD' });
+      assert.equal(direct.status, 200);
+      const directHeaderKeys = Array.from(direct.headers.keys()).map(x => x.toLowerCase());
+      assert.ok(!directHeaderKeys.includes('access-control-allow-origin'));
     });
 
-    it('should add CORS headers to the GET request', async() => {
-      const directResponse = await fetch(fileUrl);
-      const directHeaderKeys = Array.from(directResponse.headers.keys()).map(x => x.toLowerCase());
-      assert.equal(directResponse.status, 200, 'Original status is 200');
-      assert.equal(
-        directHeaderKeys.includes('access-control-allow-origin'),
-        false,
-        'Original status does not have CORS headers'
+    it('should add CORS headers', async() => {
+      const proxied = await mf.dispatchFetch(
+        `${testProxyUrl}?target=${existingFileUrl}`,
+        { method: 'HEAD' }
       );
+      assert.equal(proxied.status, 200);
+      const proxiedHeaderKeys = Array.from(proxied.headers.keys()).map(x => x.toLowerCase());
+      assert.ok(proxiedHeaderKeys.includes('access-control-allow-origin'));
+    });
+  });
 
-      const proxiedResponse = await mf.dispatchFetch(`${testProxyUrl}?target=${fileUrl}`);
-      const proxiedHeaderKeys = Array.from(proxiedResponse.headers.keys()).map(x => x.toLowerCase());
-      assert.equal(proxiedResponse.status, 200, 'Proxied status is 200');
-      assert.equal(
-        proxiedHeaderKeys.includes('access-control-allow-origin'),
-        true,
-        'Proxied status has CORS headers'
+  describe('Correct HEAD request with a 404 response', () => {
+    it('the direct response does not have CORS headers', async() => {
+      const direct = await fetch(nonexistingFileUrl, { method: 'HEAD' });
+      assert.equal(direct.status, 404);
+      const directHeaderKeys = Array.from(direct.headers.keys()).map(x => x.toLowerCase());
+      assert.ok(!directHeaderKeys.includes('access-control-allow-origin'));
+    });
+
+    it('should add CORS headers', async() => {
+      const proxied = await mf.dispatchFetch(
+        `${testProxyUrl}?target=${nonexistingFileUrl}`,
+        { method: 'HEAD' }
       );
+      assert.equal(proxied.status, 404);
+      const proxiedHeaderKeys = Array.from(proxied.headers.keys()).map(x => x.toLowerCase());
+      assert.ok(proxiedHeaderKeys.includes('access-control-allow-origin'));
+    });
+  });
 
-      const directResponseBody = await directResponse.blob();
-      const proxiedResponseBody = await proxiedResponse.blob();
-      const contentLength = proxiedResponse.headers.get('content-length');
-      assert.equal(proxiedResponseBody.size, contentLength, 'Proxied response have the size defined in the header');
-      assert.equal(directResponseBody.toString('base64'), proxiedResponseBody.toString('base64'), 'Proxied response should have an equal body to the original response');
+  describe('Correct GET request with a 200 response', () => {
+    it('the direct response does not have CORS headers', async() => {
+      const direct = await fetch(existingFileUrl);
+      assert.equal(direct.status, 200);
+      const directHeaderKeys = Array.from(direct.headers.keys()).map(x => x.toLowerCase());
+      assert.ok(!directHeaderKeys.includes('access-control-allow-origin'));
+    });
+
+    it('should add CORS headers', async() => {
+      const proxied = await mf.dispatchFetch(
+        `${testProxyUrl}?target=${existingFileUrl}`
+      );
+      assert.equal(proxied.status, 200);
+      const proxiedHeaderKeys = Array.from(proxied.headers.keys()).map(x => x.toLowerCase());
+      assert.ok(proxiedHeaderKeys.includes('access-control-allow-origin'));
+    });
+
+    it('should not change the body of the GET response', async() => {
+      const direct = await fetch(existingFileUrl);
+      const proxied = await mf.dispatchFetch(
+        `${testProxyUrl}?target=${existingFileUrl}`
+      );
+      const directBody = await direct.blob();
+      const proxiedBody = await proxied.blob();
+      const contentLength = proxied.headers.get('content-length');
+      assert.equal(proxiedBody.size, contentLength);
+      assert.equal(
+        directBody.toString('base64'),
+        proxiedBody.toString('base64'),
+        'Proxied response should have an equal body to the original response'
+      );
+    });
+  });
+
+  describe('Correct GET request with a 404 response', () => {
+    it('the direct response does not have CORS headers', async() => {
+      const direct = await fetch(nonexistingFileUrl);
+      assert.equal(direct.status, 404);
+      const directHeaderKeys = Array.from(direct.headers.keys()).map(x => x.toLowerCase());
+      assert.ok(!directHeaderKeys.includes('access-control-allow-origin'));
+    });
+
+    it('should add CORS headers', async() => {
+      const proxied = await mf.dispatchFetch(
+        `${testProxyUrl}?target=${nonexistingFileUrl}`
+      );
+      assert.equal(proxied.status, 404);
+      const proxiedHeaderKeys = Array.from(proxied.headers.keys()).map(x => x.toLowerCase());
+      assert.ok(proxiedHeaderKeys.includes('access-control-allow-origin'));
+    });
+
+    it('should not change the body of the GET response', async() => {
+      const direct = await fetch(nonexistingFileUrl);
+      const proxied = await mf.dispatchFetch(
+        `${testProxyUrl}?target=${nonexistingFileUrl}`
+      );
+      const directBody = await direct.blob();
+      const proxiedBody = await proxied.blob();
+      const contentLength = proxied.headers.get('content-length');
+      assert.equal(proxiedBody.size, contentLength);
+      assert.equal(
+        directBody.toString('base64'),
+        proxiedBody.toString('base64'),
+        'Proxied response should have an equal body to the original response'
+      );
     });
   });
 });
