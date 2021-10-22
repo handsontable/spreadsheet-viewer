@@ -27,6 +27,8 @@ async function handleRequest(request) {
   let response = await fetch(request);
 
   // Recreate the response so we can modify the headers
+  // According to the note on https://developers.cloudflare.com/workers/learning/using-streams, response.body
+  // is already a readable stream
   response = new Response(response.body, response);
 
   // Set CORS headers
