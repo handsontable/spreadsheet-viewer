@@ -8,7 +8,7 @@ async function handleRequest(request) {
   const target = url.searchParams.get('target');
 
   if (!target) {
-    return new Response(null, {
+    return new Response('Proxy failed to find the required query parameter in the request', {
       status: 404,
       statusText: 'Not Found',
     });
@@ -83,7 +83,7 @@ addEventListener('fetch', (event) => {
       event.respondWith(handleRequest(request));
     } else {
       event.respondWith(
-        new Response(null, {
+        new Response('Proxy does not allow methods other than GET, HEAD, OPTIONS', {
           status: 405,
           statusText: 'Method Not Allowed',
         }),
@@ -91,7 +91,7 @@ addEventListener('fetch', (event) => {
     }
   } else {
     event.respondWith(
-      new Response('The request does not match the criteria', {
+      new Response('Proxy failed to find the required pathname in the request', {
         status: 404,
         statusText: 'Not Found',
       }),
