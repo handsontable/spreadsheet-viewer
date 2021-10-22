@@ -64,13 +64,13 @@ const testUrlForSelectors = async(url: string, selectors: string[]) => {
 
 describe('SpreadsheetViewer integration tests', () => {
   it('should load empty.xlsx in IE11', async() => {
-    const url = `http://localhost:5000/index.html?workbookUrl=/cypress/fixtures/empty.xlsx&sheet=0&flags=${FEATURE_CHARTS}`;
+    const url = `http://localhost:5000/index.html#workbookUrl=/cypress/fixtures/empty.xlsx&sheet=0&flags=${FEATURE_CHARTS}`;
     const selectors = ['.ht_master td'];
     await testUrlForSelectors(url, selectors);
   });
 
   it('should load charts.xlsx sheet 1 in IE11', async() => {
-    const url = `http://localhost:5000/index.html?workbookUrl=/cypress/fixtures/charts.xlsx&sheet=1&flags=${FEATURE_CHARTS}`;
+    const url = `http://localhost:5000/index.html#workbookUrl=/cypress/fixtures/charts.xlsx&sheet=1&flags=${FEATURE_CHARTS}`;
     const selectors = ['.ht_master td', '.sv-handsontable-chart .sv-chart-title', '.sv-handsontable-chart canvas'];
     await testUrlForSelectors(url, selectors);
   });

@@ -31,22 +31,22 @@ const generateId = (desiredLength: number): string => {
   return generated.substring(0, desiredLength);
 };
 
-const hasQueryParameher = (url: string, targetParameter: string) => {
-  const afterQuestionMarkPosition = url.lastIndexOf('?') + 1;
-  return url.substring(afterQuestionMarkPosition).split('&').some((pair) => {
+const hasHashParameter = (url: string, targetParameter: string) => {
+  const afterHashPosition = url.lastIndexOf('#') + 1;
+  return url.substring(afterHashPosition).split('&').some((pair) => {
     const [param] = pair.split('=');
     return param === targetParameter;
   });
 };
 
 const appendQueryParameterToURL = (param: string, value: string, url: string): string => {
-  if (hasQueryParameher(url, param)) {
-    throw new SpreadsheetViewerError(`url cannot contain a parameter that already exists (${param})`);
+  if (hasHashParameter(url, param)) {
+    throw new SpreadsheetViewerError(`url hash part cannot contain a parameter that already exists (${param})`);
   }
 
-  const hasQuestionMark = url.indexOf('?') !== -1;
+  const hasHash = url.indexOf('#') !== -1;
 
-  return `${url + (hasQuestionMark ? '&' : '?') + encodeURIComponent(param)}=${encodeURIComponent(value)}`;
+  return `${url + (hasHash ? '&' : '#') + encodeURIComponent(param)}=${encodeURIComponent(value)}`;
 };
 
 const ERROR_INIT_TIMEOUT = 'Initialization timeout';

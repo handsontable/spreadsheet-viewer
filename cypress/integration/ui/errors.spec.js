@@ -19,7 +19,7 @@ context('Errors', () => {
   // If an error is thrown in Handsontable renderer, it should be caught and displayed as RENDER_ERROR
   it('RENDER_ERROR - crash screen with download button', () => {
     const simulateError = RENDER_ERROR;
-    cy.visit(`/index.html?workbookUrl=${emptyFilePath}&simulateError=${simulateError}`);
+    cy.visit(`/index.html#workbookUrl=${emptyFilePath}&simulateError=${simulateError}`);
     cy.matchErrorCode('RENDER_ERROR');
     cy.get('.crash-screen--wrapper .sv-button')
       .should(($anchor) => {
@@ -32,7 +32,7 @@ context('Errors', () => {
   it('RENDER_ERROR - crash screen with download button and custom fileName', () => {
     const simulateError = RENDER_ERROR;
     const fileName = 'test.xlsx';
-    cy.visit(`/index.html?workbookUrl=${emptyFilePath}&simulateError=${simulateError}&fileName=${fileName}`);
+    cy.visit(`/index.html#workbookUrl=${emptyFilePath}&simulateError=${simulateError}&fileName=${fileName}`);
     cy.matchErrorCode('RENDER_ERROR');
     cy.get('.crash-screen--wrapper .sv-button')
       .should(($anchor) => {
@@ -45,7 +45,7 @@ context('Errors', () => {
   it('RENDER_ERROR - crash screen with download button and custom fileName over width limit', () => {
     const simulateError = RENDER_ERROR;
     const fileName = 'tooLongFileNameShouldWrapLineButDoNotChangeMaxWidthQwertyuiopasdfghjklzxccvbnm.xlsx';
-    cy.visit(`/index.html?workbookUrl=${emptyFilePath}&simulateError=${simulateError}&fileName=${fileName}`);
+    cy.visit(`/index.html#workbookUrl=${emptyFilePath}&simulateError=${simulateError}&fileName=${fileName}`);
     cy.matchErrorCode('RENDER_ERROR');
     cy.get('.crash-screen--wrapper .sv-button')
       .should(($anchor) => {
@@ -56,19 +56,19 @@ context('Errors', () => {
   });
 
   it('FILE_LOADING_TIMEOUT_ERROR', () => {
-    cy.visit('/index.html?workbookUrl=/simulate/timeout');
+    cy.visit('/index.html#workbookUrl=/simulate/timeout');
     cy.matchErrorCode('FILE_LOADING_TIMEOUT_ERROR');
     cy.matchUISnapshot();
   });
 
   it('FILE_LOADING_STATUS_ERROR', () => {
-    cy.visit('/index.html?workbookUrl=/simulate/404');
+    cy.visit('/index.html#workbookUrl=/simulate/404');
     cy.matchErrorCode('FILE_LOADING_STATUS_ERROR');
     cy.matchUISnapshot();
   });
 
   it('FILE_LOADING_NETWORK_ERROR', () => {
-    cy.visit('/index.html?workbookUrl=http://localhost:5001');
+    cy.visit('/index.html#workbookUrl=http://localhost:5001');
     cy.matchErrorCode('FILE_LOADING_NETWORK_ERROR');
     cy.matchUISnapshot();
   });
@@ -79,19 +79,19 @@ context('Errors', () => {
     // inside of Cypress. This is likely because the proxy that they use
     // (which allows for stubbing requests) doesn't seem to ever be
     // forwarding this header to the browser.
-    cy.visit('/index.html?workbookUrl=/simulate/file-size/with-content-length');
+    cy.visit('/index.html#workbookUrl=/simulate/file-size/with-content-length');
     cy.matchErrorCode('FILE_SIZE_ERROR');
     cy.matchUISnapshot();
   });
 
   it('FILE_SIZE_ERROR - no Content-Length header', () => {
-    cy.visit('/index.html?workbookUrl=/simulate/file-size/no-content-length');
+    cy.visit('/index.html#workbookUrl=/simulate/file-size/no-content-length');
     cy.matchErrorCode('FILE_SIZE_ERROR');
     cy.matchUISnapshot();
   });
 
   it('PARSER_ERROR', () => {
-    cy.visit('/index.html?workbookUrl=/cypress/fixtures/broken.xlsx');
+    cy.visit('/index.html#workbookUrl=/cypress/fixtures/broken.xlsx');
     cy.matchErrorCode('PARSER_ERROR');
     cy.matchUISnapshot();
   });
@@ -110,51 +110,51 @@ context('Errors', () => {
   });
 
   it('SHEET_LIMIT_ERROR - .xls', () => {
-    cy.visit('/index.html?workbookUrl=/cypress/fixtures/101-sheets.xls&flags=moreformats');
+    cy.visit('/index.html#workbookUrl=/cypress/fixtures/101-sheets.xls&flags=moreformats');
     cy.matchErrorCode('SHEET_LIMIT_ERROR');
     cy.matchUISnapshot();
   });
 
   it('SHEET_LIMIT_ERROR - .xlsx', () => {
-    cy.visit('/index.html?workbookUrl=/cypress/fixtures/101-sheets.xlsx');
+    cy.visit('/index.html#workbookUrl=/cypress/fixtures/101-sheets.xlsx');
     cy.matchErrorCode('SHEET_LIMIT_ERROR');
     cy.matchUISnapshot();
   });
 
   it('INTERPRETER_ERROR', () => {
-    cy.visit(`/index.html?workbookUrl=/cypress/fixtures/empty.xlsx&simulateError=${INTERPRETER_ERROR}`);
+    cy.visit(`/index.html#workbookUrl=/cypress/fixtures/empty.xlsx&simulateError=${INTERPRETER_ERROR}`);
     cy.matchErrorCode('INTERPRETER_ERROR');
     cy.matchUISnapshot();
   });
 
   it('INVALID_QUERY_STRING_API_PARAMETER_ERROR', () => {
-    cy.visit('/index.html?workbookUrl=/cypress/fixtures/empty.xlsx&sheet=second');
+    cy.visit('/index.html#workbookUrl=/cypress/fixtures/empty.xlsx&sheet=second');
     cy.matchErrorCode('INVALID_QUERY_STRING_API_PARAMETER_ERROR');
     cy.matchUISnapshot();
   });
 
   it('REACT_INITIALIZATION_ERROR - light theme', () => {
     const simulateError = REACT_INITIALIZATION_ERROR;
-    cy.visit(`/index.html?workbookUrl=${emptyFilePath}&themeStylesheet=light&simulateError=${simulateError}`);
+    cy.visit(`/index.html#workbookUrl=${emptyFilePath}&themeStylesheet=light&simulateError=${simulateError}`);
     cy.matchErrorCode('UNKNOWN_ERROR');
     cy.matchUISnapshot();
   });
 
   it('FILE_PROTECTION_ERROR - xlsx', () => {
-    cy.visit('/index.html?workbookUrl=/cypress/fixtures/password-hot.xlsx');
+    cy.visit('/index.html#workbookUrl=/cypress/fixtures/password-hot.xlsx');
     cy.matchErrorCode('FILE_PROTECTION_ERROR');
     cy.matchUISnapshot();
   });
 
   it('FILE_PROTECTION_ERROR - xls', () => {
-    cy.visit('/index.html?workbookUrl=/cypress/fixtures/password-hot.xls&flags=moreformats');
+    cy.visit('/index.html#workbookUrl=/cypress/fixtures/password-hot.xls&flags=moreformats');
     cy.matchErrorCode('FILE_PROTECTION_ERROR');
     cy.matchUISnapshot();
   });
 
   it('REACT_INITIALIZATION_ERROR - dark theme', () => {
     const simulateError = REACT_INITIALIZATION_ERROR;
-    cy.visit(`/index.html?workbookUrl=${emptyFilePath}&themeStylesheet=dark&simulateError=${simulateError}`);
+    cy.visit(`/index.html#workbookUrl=${emptyFilePath}&themeStylesheet=dark&simulateError=${simulateError}`);
     cy.matchErrorCode('UNKNOWN_ERROR');
     cy.matchUISnapshot();
   });
