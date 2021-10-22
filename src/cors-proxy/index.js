@@ -1,10 +1,5 @@
 // based on https://developers.cloudflare.com/workers/examples/cors-header-proxy
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS',
-};
-
 // The endpoint you want the CORS reverse proxy to be on
 const PROXY_ENDPOINT = '/corsproxy/';
 
@@ -42,8 +37,6 @@ async function handleRequest(request) {
 }
 
 function handleOptions(request) {
-  // Make sure the necessary headers are present
-  // for this to be a valid pre-flight request
   const { headers } = request;
   if (
     headers.get('Origin') !== null
@@ -54,7 +47,8 @@ function handleOptions(request) {
     // If you want to check or reject the requested method + headers
     // you can do that here.
     const respHeaders = {
-      ...corsHeaders,
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS',
       // Allow all future content Request headers to go back to browser
       // such as Authorization (Bearer) or X-Client-Name-Version
       'Access-Control-Allow-Headers': request.headers.get('Access-Control-Request-Headers'),
