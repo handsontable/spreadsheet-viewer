@@ -385,11 +385,6 @@ jobs:
           cd src/testbed
           yarn build
 
-      - name: Code style linting
-        run: |
-          cd src/testbed
-          yarn lint
-
       - name: Start the static HTTP server
         run: |
           cd src/testbed/dist
