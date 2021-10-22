@@ -3,6 +3,25 @@
 // The endpoint you want the CORS reverse proxy to be on
 const PROXY_ENDPOINT = '/corsproxy/';
 
+// keep in sync with src/sv/filetype.ts
+const workbookMimeTypes = [
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+  'application/vnd.ms-excel.sheet.macroenabled.12',
+  'application/vnd.ms-excel.template.macroenabled.12',
+  'application/vnd.ms-excel.addin.macroenabled.12',
+  'application/vnd.ms-excel.sheet.binary.macroenabled.12',
+  'application/vnd.oasis.opendocument.spreadsheet',
+  'application/x-iwork-numbers-sffnumbers',
+  'application/vnd.apple.numbers',
+];
+
+// Some HTTP servers include additional information after semicolon, e.g.
+// 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;
+// charset=utf-8'
+const getMimeTypeFromHeaders = headers => headers.get('content-type')?.split(';')[0] || undefined;
+
 async function handleRequest(request) {
   const url = new URL(request.url);
   const target = url.searchParams.get('target');
@@ -26,14 +45,22 @@ async function handleRequest(request) {
   // is already a readable stream
   response = new Response(response.body, response);
 
-  // Set CORS headers
-  // response.headers.set("Access-Control-Allow-Origin", url.origin)
-  response.headers.set('Access-Control-Allow-Origin', '*');
+  const mimeType = getMimeTypeFromHeaders(response.headers)?.toLowerCase();
+  if (workbookMimeTypes.includes(mimeType)) {
+    // Set CORS headers for workbook files
+    // response.headers.set("Access-Control-Allow-Origin", url.origin)
+    response.headers.set('Access-Control-Allow-Origin', '*');
 
-  // Append to/Add Vary header so browser will cache response correctly
-  response.headers.append('Vary', 'Origin');
+    // Append to/Add Vary header so browser will cache response correctly
+    response.headers.append('Vary', 'Origin');
 
-  return response;
+    return response;
+  }
+
+  return new Response('Proxy only works with workbook response types', {
+    status: 415,
+    statusText: 'Unsupported Media Type',
+  });
 }
 
 function handleOptions(request) {

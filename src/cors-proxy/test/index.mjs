@@ -10,6 +10,11 @@ const testProxyRoot = 'http://localhost:8787';
 const testProxyPathname = '/corsproxy/';
 const testProxyUrl = `${testProxyRoot}${testProxyPathname}`;
 
+const isCorsHeader = (headers) => {
+  const proxiedHeaderKeys = Array.from(headers.keys()).map(x => x.toLowerCase());
+  return proxiedHeaderKeys.includes('access-control-allow-origin');
+};
+
 describe('CORS proxy', () => {
   describe('Incorrect request', () => {
     it('should return 404 for a request without correct pathname', async() => {
@@ -41,14 +46,14 @@ describe('CORS proxy', () => {
   });
 
   const existingFileUrl = 'https://handsontable.com/static/resources/ModSV/sample-file.xlsx';
+  const existingHtmlUrl = 'https://handsontable.com/';
   const nonexistingFileUrl = 'https://www.google.com/404';
 
   describe('Correct HEAD request with a 200 response', () => {
     it('the direct response does not have CORS headers', async() => {
       const direct = await fetch(existingFileUrl, { method: 'HEAD' });
       assert.equal(direct.status, 200);
-      const directHeaderKeys = Array.from(direct.headers.keys()).map(x => x.toLowerCase());
-      assert.ok(!directHeaderKeys.includes('access-control-allow-origin'));
+      assert.ok(!isCorsHeader(direct.headers));
     });
 
     it('should add CORS headers', async() => {
@@ -57,8 +62,16 @@ describe('CORS proxy', () => {
         { method: 'HEAD' }
       );
       assert.equal(proxied.status, 200);
-      const proxiedHeaderKeys = Array.from(proxied.headers.keys()).map(x => x.toLowerCase());
-      assert.ok(proxiedHeaderKeys.includes('access-control-allow-origin'));
+      assert.ok(isCorsHeader(proxied.headers));
+    });
+
+    it('should NOT add CORS headers if the filetype is not a workbook', async() => {
+      const proxied = await mf.dispatchFetch(
+        `${testProxyUrl}?target=${existingHtmlUrl}`,
+        { method: 'HEAD' }
+      );
+      assert.equal(proxied.status, 415);
+      assert.ok(!isCorsHeader(proxied.headers));
     });
   });
 
@@ -66,18 +79,21 @@ describe('CORS proxy', () => {
     it('the direct response does not have CORS headers', async() => {
       const direct = await fetch(nonexistingFileUrl, { method: 'HEAD' });
       assert.equal(direct.status, 404);
-      const directHeaderKeys = Array.from(direct.headers.keys()).map(x => x.toLowerCase());
-      assert.ok(!directHeaderKeys.includes('access-control-allow-origin'));
+      assert.ok(!isCorsHeader(direct.headers));
     });
 
-    it('should add CORS headers', async() => {
+    it('should NOT add CORS headers, should change the body', async() => {
       const proxied = await mf.dispatchFetch(
         `${testProxyUrl}?target=${nonexistingFileUrl}`,
         { method: 'HEAD' }
       );
-      assert.equal(proxied.status, 404);
-      const proxiedHeaderKeys = Array.from(proxied.headers.keys()).map(x => x.toLowerCase());
-      assert.ok(proxiedHeaderKeys.includes('access-control-allow-origin'));
+      assert.equal(proxied.status, 415);
+      assert.ok(!isCorsHeader(proxied.headers));
+      const proxiedBody = await proxied.text();
+      assert.equal(
+        proxiedBody,
+        'Proxy only works with workbook response types'
+      );
     });
   });
 
@@ -85,8 +101,7 @@ describe('CORS proxy', () => {
     it('the direct response does not have CORS headers', async() => {
       const direct = await fetch(existingFileUrl);
       assert.equal(direct.status, 200);
-      const directHeaderKeys = Array.from(direct.headers.keys()).map(x => x.toLowerCase());
-      assert.ok(!directHeaderKeys.includes('access-control-allow-origin'));
+      assert.ok(!isCorsHeader(direct.headers));
     });
 
     it('should add CORS headers', async() => {
@@ -94,8 +109,20 @@ describe('CORS proxy', () => {
         `${testProxyUrl}?target=${existingFileUrl}`
       );
       assert.equal(proxied.status, 200);
-      const proxiedHeaderKeys = Array.from(proxied.headers.keys()).map(x => x.toLowerCase());
-      assert.ok(proxiedHeaderKeys.includes('access-control-allow-origin'));
+      assert.ok(isCorsHeader(proxied.headers));
+    });
+
+    it('should NOT add CORS headers if the filetype is not a workbook, should change the body', async() => {
+      const proxied = await mf.dispatchFetch(
+        `${testProxyUrl}?target=${existingHtmlUrl}`
+      );
+      assert.equal(proxied.status, 415);
+      assert.ok(!isCorsHeader(proxied.headers));
+      const proxiedBody = await proxied.text();
+      assert.equal(
+        proxiedBody,
+        'Proxy only works with workbook response types'
+      );
     });
 
     it('should not change the body of the GET response', async() => {
@@ -119,32 +146,19 @@ describe('CORS proxy', () => {
     it('the direct response does not have CORS headers', async() => {
       const direct = await fetch(nonexistingFileUrl);
       assert.equal(direct.status, 404);
-      const directHeaderKeys = Array.from(direct.headers.keys()).map(x => x.toLowerCase());
-      assert.ok(!directHeaderKeys.includes('access-control-allow-origin'));
+      assert.ok(!isCorsHeader(direct.headers));
     });
 
-    it('should add CORS headers', async() => {
+    it('should NOT add CORS headers, should change the body', async() => {
       const proxied = await mf.dispatchFetch(
         `${testProxyUrl}?target=${nonexistingFileUrl}`
       );
-      assert.equal(proxied.status, 404);
-      const proxiedHeaderKeys = Array.from(proxied.headers.keys()).map(x => x.toLowerCase());
-      assert.ok(proxiedHeaderKeys.includes('access-control-allow-origin'));
-    });
-
-    it('should not change the body of the GET response', async() => {
-      const direct = await fetch(nonexistingFileUrl);
-      const proxied = await mf.dispatchFetch(
-        `${testProxyUrl}?target=${nonexistingFileUrl}`
-      );
-      const directBody = await direct.blob();
-      const proxiedBody = await proxied.blob();
-      const contentLength = proxied.headers.get('content-length');
-      assert.equal(proxiedBody.size, contentLength);
+      assert.equal(proxied.status, 415);
+      assert.ok(!isCorsHeader(proxied.headers));
+      const proxiedBody = await proxied.text();
       assert.equal(
-        directBody.toString('base64'),
-        proxiedBody.toString('base64'),
-        'Proxied response should have an equal body to the original response'
+        proxiedBody,
+        'Proxy only works with workbook response types'
       );
     });
   });

@@ -30,6 +30,8 @@ const isWorkbookExtension = (str: string): str is WorkbookExtension => {
  * represent both `xls` and `xlt` files). This is not considered a big drawback
  * at the moment of writing since the files with faulty flags are under a flag
  * anyway, and `xlsx` has a pretty descriptive and non-ambiguous mime type.
+ *
+ * Keep in sync with src/cors-proxy/index.js
  */
 export const workbookMimeTypesToExtensions: ReadonlyMap<string, WorkbookExtension> = new Map([
   ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx'],
