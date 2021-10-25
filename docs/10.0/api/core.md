@@ -28,18 +28,6 @@ hot.setDataAtCell(0, 0, 'new value');
 
 ## Members
 
-### columnIndexMapper
-
-::: source-code-link https://github.com/handsontable/handsontable/blob/8fefd4e3b0aa3b030c1cc59eabc183d8e1049360/src/core.js#L154
-
-:::
-
-_core.columnIndexMapper : [IndexMapper](@/api/indexMapper.md)_
-
-Instance of index mapper which is responsible for managing the column indexes.
-
-
-
 ### isDestroyed
 
 ::: source-code-link https://github.com/handsontable/handsontable/blob/8fefd4e3b0aa3b030c1cc59eabc183d8e1049360/src/core.js#L111
@@ -50,19 +38,6 @@ _core.isDestroyed : boolean_
 
 A boolean to tell if the Handsontable has been fully destroyed. This is set to `true`
 after `afterDestroy` hook is called.
-
-
-
-### rowIndexMapper
-
-::: source-code-link https://github.com/handsontable/handsontable/blob/8fefd4e3b0aa3b030c1cc59eabc183d8e1049360/src/core.js#L162
-
-:::
-
-_core.rowIndexMapper : [IndexMapper](@/api/indexMapper.md)_
-
-Instance of index mapper which is responsible for managing the row indexes.
-
 
 ## Methods
 
