@@ -5,6 +5,7 @@
 import { useReducer, useEffect, useCallback } from 'react';
 
 import { ParsedData, fixupData } from './utils/FileService';
+import { isDataUrl } from './filetype';
 
 import type { ParseWorker, ParseWorkerOutput } from './parse-worker';
 import { startPerfMarker, MARKERS, endPerfMarker } from '../../perf/markers';
@@ -13,6 +14,8 @@ import { SpreadsheetViewerError } from './error';
 import * as errors from './error';
 import * as sheetHistory from './sheet-history';
 import type { SvId } from './sv-id';
+
+const defaultCorsProxyUrl = 'https://sv-cors.warpech.workers.dev/corsproxy/?target=';
 
 export type WorkbookInput = {
   type: 'arraybuffer'
@@ -353,6 +356,13 @@ export const useWorkbook = (props: UseWorkbookProps) => {
    */
   const loadWorkbook = useCallback((input: WorkbookInput, sheet: number = 0) => {
     const workbookId = Math.random().toString(32).substring(2);
+
+    if (input.type === 'url' && !isDataUrl(input.url)) {
+      const url = new URL(input.url, window.location.href);
+      if (url.origin !== window.location.origin) {
+        input.url = `${defaultCorsProxyUrl}${encodeURIComponent(input.url)}`;
+      }
+    }
 
     dispatch({
       type: 'initialize',

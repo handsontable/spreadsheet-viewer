@@ -67,8 +67,13 @@ export const getFiletypeFromExtension = (extension: string): FileFormatSupportLe
   return 'unsupported non-workbook file';
 };
 
+// base64-encoded input is passed as a data URL
+export const isDataUrl = (url: string): boolean => {
+  return url.startsWith('data:');
+};
+
 export const getFilenameFromUrl = (url: string): string | undefined => {
-  if (url.startsWith('data:')) {
+  if (isDataUrl(url)) {
     return undefined;
   }
 
