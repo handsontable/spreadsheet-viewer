@@ -17,7 +17,3 @@ report-check-links.xlsx
 /.vuepress/public/handsontable
 
 /docker/redirects.conf
-/next/api/
-!/next/api/introduction.md
-!/next/api/plugins.md
-!/next/api/sidebar.js
