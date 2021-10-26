@@ -354,7 +354,7 @@ const takeSnapshotInScenario = async(seleniumEndpoint: string, scenario: Scenari
     }
 
     console.log('Getting the Spreadsheet Viewer page...');
-    await driver.get('http://localhost:5000/?workbookUrl=/cypress/fixtures/styling.xlsx');
+    await driver.get('http://localhost:5000/#workbookUrl=/cypress/fixtures/styling.xlsx');
 
     console.log('Waiting for Spreadsheet Viewer to render its contents');
     await driver.wait(

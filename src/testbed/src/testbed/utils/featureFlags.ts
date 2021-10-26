@@ -1,5 +1,5 @@
-import { parseURLSearchParams } from './url';
+import { parseURLParams } from './url';
 
 export const getFeatureFlagsRaw = ():string => {
-  return parseURLSearchParams(window.location.search).get('flags') || '';
+  return parseURLParams(window.location.hash).get('flags') || '';
 };

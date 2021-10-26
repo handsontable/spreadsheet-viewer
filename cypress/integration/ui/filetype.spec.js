@@ -46,64 +46,64 @@ const UNSUPPORTED_FILE_FORMAT_ERROR = 'UNSUPPORTED_FILE_FORMAT_ERROR';
 // https://github.com/handsontable/spreadsheet-viewer-dev/issues/752#issuecomment-713649222
 context('Filetype', () => {
   it('`supported workbook`, `moreformats` false, `js-xlsx` valid', () => {
-    cy.visit(`/index.html?workbookUrl=${emptyFilePath}`);
+    cy.visit(`/index.html#workbookUrl=${emptyFilePath}`);
     success();
     cy.matchUISnapshot();
   });
   it('`supported workbook`, `moreformats` true, `js-xlsx` valid', () => {
-    cy.visit(`/index.html?workbookUrl=${emptyFilePath}&flags=moreformats`);
+    cy.visit(`/index.html#workbookUrl=${emptyFilePath}&flags=moreformats`);
     success();
     cy.matchUISnapshot();
   });
   it('`supported workbook`, `moreformats` false, `js-xlsx` invalid', () => {
-    cy.visit(`/index.html?workbookUrl=${brokenFilePath}`);
+    cy.visit(`/index.html#workbookUrl=${brokenFilePath}`);
     error(PARSER_ERROR);
     cy.matchUISnapshot();
   });
   it('`supported workbook`, `moreformats` true, `js-xlsx` invalid', () => {
-    cy.visit(`/index.html?workbookUrl=${brokenFilePath}&flags=moreformats`);
+    cy.visit(`/index.html#workbookUrl=${brokenFilePath}&flags=moreformats`);
     error(PARSER_ERROR);
     cy.matchUISnapshot();
   });
 
   it('`unsupported workbook`, `moreformats` false, `js-xlsx` valid', () => {
-    cy.visit(`/index.html?workbookUrl=${disguisedXlsxFilePath}`);
+    cy.visit(`/index.html#workbookUrl=${disguisedXlsxFilePath}`);
     error(UNSUPPORTED_WORKBOOK_FORMAT_ERROR);
     cy.matchUISnapshot();
   });
   it('`unsupported workbook`, `moreformats` true, `js-xlsx` valid', () => {
-    cy.visit(`/index.html?workbookUrl=${disguisedXlsxFilePath}&flags=moreformats`);
+    cy.visit(`/index.html#workbookUrl=${disguisedXlsxFilePath}&flags=moreformats`);
     success();
     cy.matchUISnapshot();
   });
   it('`unsupported workbook`, `moreformats` false, `js-xlsx` invalid', () => {
-    cy.visit(`/index.html?workbookUrl=${disguisedBrokenFilePath}`);
+    cy.visit(`/index.html#workbookUrl=${disguisedBrokenFilePath}`);
     error(UNSUPPORTED_WORKBOOK_FORMAT_ERROR);
     cy.matchUISnapshot();
   });
   it('`unsupported workbook`, `moreformats` true, `js-xlsx` invalid', () => {
-    cy.visit(`/index.html?workbookUrl=${disguisedBrokenFilePath}&flags=moreformats`);
+    cy.visit(`/index.html#workbookUrl=${disguisedBrokenFilePath}&flags=moreformats`);
     error(PARSER_ERROR);
     cy.matchUISnapshot();
   });
 
   it('`unsupported file type`, `moreformats` false, `js-xlsx` valid', () => {
-    cy.visit(`/index.html?workbookUrl=${unsupportedFiletypePath}`);
+    cy.visit(`/index.html#workbookUrl=${unsupportedFiletypePath}`);
     error(UNSUPPORTED_FILE_FORMAT_ERROR);
     cy.matchUISnapshot();
   });
   it('`unsupported file type`, `moreformats` true, `js-xlsx` valid', () => {
-    cy.visit(`/index.html?workbookUrl=${unsupportedFiletypePath}&flags=moreformats`);
+    cy.visit(`/index.html#workbookUrl=${unsupportedFiletypePath}&flags=moreformats`);
     error(UNSUPPORTED_FILE_FORMAT_ERROR);
     cy.matchUISnapshot();
   });
   it('`unsupported file type`, `moreformats` false, `js-xlsx` invalid', () => {
-    cy.visit(`/index.html?workbookUrl=${unsupportedFiletypePath}`);
+    cy.visit(`/index.html#workbookUrl=${unsupportedFiletypePath}`);
     error(UNSUPPORTED_FILE_FORMAT_ERROR);
     cy.matchUISnapshot();
   });
   it('`unsupported file type`, `moreformats` true, `js-xlsx` invalid', () => {
-    cy.visit(`/index.html?workbookUrl=${unsupportedFiletypePath}&flags=moreformats`);
+    cy.visit(`/index.html#workbookUrl=${unsupportedFiletypePath}&flags=moreformats`);
     error(UNSUPPORTED_FILE_FORMAT_ERROR);
     cy.matchUISnapshot();
   });
@@ -111,19 +111,19 @@ context('Filetype', () => {
 
 context('mime type check', () => {
   it('mimetype: `supported workbook`', () => {
-    cy.visit(`/index.html?workbookUrl=${emptyFilePath}`);
+    cy.visit(`/index.html#workbookUrl=${emptyFilePath}`);
     success();
     cy.matchUISnapshot();
   });
 
   it('mimetype: `unsupported workbook`', () => {
-    cy.visit('/index.html?workbookUrl=/simulate/mime-ods');
+    cy.visit('/index.html#workbookUrl=/simulate/mime-ods');
     error(UNSUPPORTED_WORKBOOK_FORMAT_ERROR);
     cy.matchUISnapshot();
   });
 
   it('mimetype: `unsupported file type`', () => {
-    cy.visit('/index.html?workbookUrl=/simulate/mime-wrong');
+    cy.visit('/index.html#workbookUrl=/simulate/mime-wrong');
     error(UNSUPPORTED_FILE_FORMAT_ERROR);
     cy.matchUISnapshot();
   });

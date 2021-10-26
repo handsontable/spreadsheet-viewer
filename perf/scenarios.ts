@@ -24,7 +24,7 @@ export const fileNames = {
 
 const openSingleFixtureOnTab = (fixtureName: string, tab: number) => async(page: Page, config: PerformanceMeasurementsConfig) => {
   const filePath = `/cypress/fixtures/${fixtureName}`;
-  const url = `${config.appAddress}?workbookUrl=${filePath}&sheet=${tab}&flags=${FEATURE_CHARTS}`;
+  const url = `${config.appAddress}#workbookUrl=${filePath}&sheet=${tab}&flags=${FEATURE_CHARTS}`;
   await page.goto(url, { timeout: 3000 }).catch((error) => {
     console.log(
       COLORS.yellow,

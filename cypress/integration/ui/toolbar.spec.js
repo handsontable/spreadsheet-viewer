@@ -33,7 +33,7 @@ context('Toolbar with fileName', () => {
   it('should download a file with custom fileName', () => {
     const filePath = `/cypress/fixtures/${FILE_GENERAL}`;
     const fileName = 'test.xlsx';
-    cy.visit(`/index.html?workbookUrl=${filePath}&fileName=${fileName}`);
+    cy.visit(`/index.html#workbookUrl=${filePath}&fileName=${fileName}`);
     cy.get('[data-cy=download-anchor]')
       .should(($anchor) => {
         expect($anchor[0]).to.have.attr('download', fileName);
@@ -44,7 +44,7 @@ context('Toolbar with fileName', () => {
 
 context('Toolbar in crash screen', () => {
   it('should upload a new file', () => {
-    cy.visit('/index.html?workbookUrl=wrongFileUrl');
+    cy.visit('/index.html#workbookUrl=wrongFileUrl');
 
     cy.get('[data-cy=toolbar-upload-button]').click()
       .get('[data-cy=toolbar-upload-input]').attachFile(STYLING)

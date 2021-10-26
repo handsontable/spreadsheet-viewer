@@ -24,7 +24,7 @@ const CLASS_RENDERER_SHOW = 'show';
 const CLASS_FILE_OVER = 'ok';
 
 let flags = getFeatureFlagsRaw();
-flags = flags ? `?flags=${flags}` : '';
+flags = flags ? `#flags=${flags}` : '';
 
 const assetsUrl = `/sv-assets/index.html${flags}`;
 const sv = SpreadsheetViewer({ container: svContainer, assetsUrl });

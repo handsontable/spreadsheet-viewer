@@ -42,12 +42,14 @@ Cypress.Commands.add('firstTabShouldHaveTextInDemo', (text) => {
   });
 });
 
+const randomId = () => Math.random().toString(32).substring(2);
+
 // urlParameters is an optional string, but if it is not empty, it should begin with ?
 Cypress.Commands.add('uploadWorkbookInDemo', (fileName, urlParameters = '') => {
   // see https://github.com/palmerhq/cypress-image-snapshot for configuration of .attachFile()
-  const url = '/src/testbed/index.html';
-  if (urlParameters && urlParameters.indexOf('?') !== 0) {
-    throw new Error('urlParameters must be empty or begin with ?');
+  const url = `/src/testbed/index.html?randomKey=${randomId()}`; // without randomId, Cypress changes the hash of the page without doing a full reload. Visiting about:blank or data:... does not work, because Cypress treats these as relative URLs
+  if (urlParameters && urlParameters.indexOf('#') !== 0) {
+    throw new Error('urlParameters must be empty or begin with #');
   }
   cy.visit(`${url}${urlParameters}`);
 

@@ -1,4 +1,4 @@
-import { parseURLSearchParams } from './QueryStringService';
+import { parseURLParams } from './QueryStringService';
 
 export const FEATURE_CHARTS = 'charts';
 export const FEATURE_FULL_PAGE = 'fullPage';
@@ -17,11 +17,11 @@ type FlagsMap = {[flag in FeatureFlag]?:boolean};
 let current: FlagsMap|null = null;
 
 const create = (): FlagsMap => {
-  if (window.location.search.length === 0) {
+  if (window.location.hash.length === 0) {
     return FEATURE_FLAGS_DEFAULT;
   }
 
-  return parseURLSearchParams(window.location.search)
+  return parseURLParams(window.location.hash)
     .get(QUERY_PARAM)
     ?.split(',')
     .reduce((p, c) => { p[c as FeatureFlag] = true; return p; }, { ...FEATURE_FLAGS_DEFAULT } as FlagsMap)

@@ -32,6 +32,8 @@ Cypress.Commands.add('resetLoadSheet', () => {
   currentFilePage = '';
 });
 
+const randomId = () => Math.random().toString(32).substring(2);
+
 // load a workbook at a given sheet index in the SV, directly in the main window using Query String API.
 Cypress.Commands.add('loadSheetInSV', (fileName, tabIndex, themeStylesheet = 'dark', isLicenseKey = true, flags = [], isMobile = false) => {
   cy.viewport(isMobile ? 'iphone-x' : 1920, 1080);
@@ -48,7 +50,8 @@ Cypress.Commands.add('loadSheetInSV', (fileName, tabIndex, themeStylesheet = 'da
 
   const flagsParameter = flags.concat(shouldSvBeInFullPageMode ? FEATURE_FULL_PAGE : undefined).join(',');
   const request = '/index.html'
-    + `?licenseKey=${isLicenseKey ? LICENSE_KEY : ''}`
+    + `?randomKey=${randomId()}` // without randomId, Cypress changes the hash of the page without doing a full reload. Visiting about:blank or data:... does not work, because Cypress treats these as relative URLs
+    + `#licenseKey=${isLicenseKey ? LICENSE_KEY : ''}`
     + `&workbookUrl=/cypress/fixtures/${fileName}`
     + `&sheet=${tabIndex}`
     + `&themeStylesheet=${themeStylesheet}`
