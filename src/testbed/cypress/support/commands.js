@@ -46,8 +46,8 @@ Cypress.Commands.add('firstTabShouldHaveTextInDemo', (text) => {
 Cypress.Commands.add('uploadWorkbookInDemo', (fileName, urlParameters = '') => {
   // see https://github.com/palmerhq/cypress-image-snapshot for configuration of .attachFile()
   const url = '/src/testbed/index.html';
-  if (urlParameters && urlParameters.indexOf('?') !== 0) {
-    throw new Error('urlParameters must be empty or begin with ?');
+  if (urlParameters && urlParameters.indexOf('#') !== 0) {
+    throw new Error('urlParameters must be empty or begin with #');
   }
   cy.visit(`${url}${urlParameters}`);
 
