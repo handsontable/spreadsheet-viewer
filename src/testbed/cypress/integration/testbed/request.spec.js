@@ -105,12 +105,12 @@ context('Feature flags forwarding', () => {
   it('WHEN flags doesn\'t exist THEN nothing should be forwarded into sv', () => {
     cy.uploadWorkbookInDemo(FILE_GENERAL);
     cy.get(DEMO_IFRAME_SELECTOR).should('have.attr', 'src')
-      .and('not.match', /[?&]flags=/);
+      .and('not.match', /[#&]flags=/);
   });
 
   it('WHEN flags exist THEN value should be forwarded into sv', () => {
     cy.uploadWorkbookInDemo(FILE_GENERAL, '#flags=any_flag,flag2');
     cy.get(DEMO_IFRAME_SELECTOR).should('have.attr', 'src')
-      .and('match', /[?&]flags=any_flag,flag2(&|$)/);
+      .and('match', /[#&]flags=any_flag,flag2(&|$)/);
   });
 });

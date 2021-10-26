@@ -1,9 +1,9 @@
 // Press T key to toggle theme between light and dark
 
 import type { SpreadsheetViewerInstance, ThemeStylesheet } from '~/../../dist/client-library/clientLibrary';
-import { parseURLSearchParams } from './url';
+import { parseURLParams } from './url';
 
-const params = parseURLSearchParams(window.location.search);
+const params = parseURLParams(window.location.hash);
 let isLightThemeEnabled = (params.get('themeStylesheet') === 'light');
 
 const toggleStylesheetLink = (themeStylesheet: ThemeStylesheet) => {
