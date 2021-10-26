@@ -50,7 +50,7 @@ Cypress.Commands.add('loadSheetInSV', (fileName, tabIndex, themeStylesheet = 'da
 
   const flagsParameter = flags.concat(shouldSvBeInFullPageMode ? FEATURE_FULL_PAGE : undefined).join(',');
   const request = '/index.html'
-    + `?randomKey=${randomId()}` // without it, Cypress changes the hash of the page without doing a full reload
+    + `?randomKey=${randomId()}` // without randomId, Cypress changes the hash of the page without doing a full reload. Visiting about:blank or data:... does not work, because Cypress treats these as relative URLs
     + `#licenseKey=${isLicenseKey ? LICENSE_KEY : ''}`
     + `&workbookUrl=/cypress/fixtures/${fileName}`
     + `&sheet=${tabIndex}`
