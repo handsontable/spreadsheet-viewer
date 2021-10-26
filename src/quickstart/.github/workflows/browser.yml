@@ -6,7 +6,7 @@ jobs:
   test:
     timeout-minutes: 15
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     env:
       SELENIUM_IMAGE: selenium/standalone-chrome:4.0.0-alpha-7-prerelease-20200921

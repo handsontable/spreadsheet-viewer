@@ -10,7 +10,7 @@ jobs:
   prepare-matrix:
     name: Prepare Matrix
     if: "!startsWith(github.event.head_commit.message, '[skip ci]')"
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     outputs:
       specs: ${{ steps.prepare-specs-matrix.outputs.matrix }}
     steps:
@@ -23,7 +23,7 @@ jobs:
     if: "!startsWith(github.event.head_commit.message, '[skip ci]')"
 
     timeout-minutes: 6
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Use Node 14
         uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
@@ -89,7 +89,7 @@ jobs:
     name: Lint
     needs: build
     timeout-minutes: 2
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Use Node 14
         uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
@@ -110,7 +110,7 @@ jobs:
   unit:
     name: Unit
     needs: build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Use Node 14
@@ -135,7 +135,7 @@ jobs:
       - build
       - prepare-matrix
     timeout-minutes: 30
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
@@ -207,7 +207,7 @@ jobs:
     name: TestingBot
     needs: build
     timeout-minutes: 15
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     # Prevent the whole workflow from failing if this job fails. This is
     # done due to many inconsistencies with TestingBot that caused flaky
@@ -269,7 +269,7 @@ jobs:
     name: (integration) quickstart
     needs: build
     timeout-minutes: 15
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     env:
       SELENIUM_IMAGE: selenium/standalone-chrome:4.0.0-alpha-7-prerelease-20200921
@@ -351,7 +351,7 @@ jobs:
 
   integration-samples:
     name: (integration) testbed
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: build
 
     steps:
@@ -398,7 +398,7 @@ jobs:
   performance-smoke:
     name: Performance - smoke, n=1
     needs: build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Use Node 14
         uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
@@ -434,7 +434,7 @@ jobs:
     needs: build
     if: contains(github.event.head_commit.message, 'perf') # only start this job when the commit message contains the word "perf". Via https://github.com/veggiemonk/skip-commit/issues/5
     timeout-minutes: 90
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Use Node 14
         uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
