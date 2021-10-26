@@ -1,0 +1,2 @@
+- [Contact sales](https://handsontable.com/get-a-quote)
+- [Get technical support](https://handsontable.com/contact?category=technical_support)

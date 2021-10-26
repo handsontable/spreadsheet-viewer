@@ -1,0 +1,74 @@
+Before attempting to make a custom build, make sure that all the [[Prerequisites]] are met in your environment (Installing required tools, Cloning the repo, Installing the dependencies).
+
+## Building
+
+There are three main commands used for building the bundles:
+
+- `yarn start` - start a development server (`webpack-dev-server`) for the `sv` project on port `5000` (customizable with `--port`, e.g. `yarn start --port 8080`), rebuilding the bundle on any file changes. Then open [http:/localhost:5000](http:/localhost:5000) (it might take 1 minute the first time). This is most desired for usual development, see examples below.
+
+- `yarn build` - build (by default in production) both the `client-library` and `sv` projects, and place the results into `dist/`. There is no server that runs for that, see the next command.
+
+- `yarn serve:sv` - start a simple HTTP static server on port `5000` pointing to `dist/sv`, mimicking how Spreadsheet Viewer might be deployed on a production environment. This is only useful with combination with `yarn build`.
+
+---
+
+The development experience, as in both `yarn start` and `yarn build` can be customized in the following ways (UPPERCASE variables represent environment variables):
+
+- `mode` - `NODE_ENV=development` for `development`, otherwise always `production`. This sets [Webpack's `config.mode`](https://webpack.js.org/configuration/mode). `development` build includes necessities necessary for development, like source maps and react's development build.
+- `minimize` - `MINIMIZE=false` or `MINIMIZE=true` (defaults to `true` in `mode` = `production`, otherwise `false`). The minimization step is the longest of all steps in the build and toggling it off makes the build way quicker.
+- `bundle` - `BUNDLE=modern` / `BUNDLE=legacy` / `unspecified` (both bundles) - defaults to both bundles. Determines which bundle to build, `legacy` bundle runs on anything that doesn't support [esmodules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules), `modern` runs on any browser that does support them.
+
+These customizations can be used interchangeably, depending on the developer's needs. Presented below are a couple of examples that will be especially useful:
+
+### Normal development
+
+For normal development we can simply start `webpack-dev-server` with only the `modern` bundle, assuming you're developing on a modern browser:
+
+```bash
+BUNDLE=modern yarn start
+```
+
+### Development on IE11
+
+If you need exclusively IE11, simply set `BUNDLE` to `legacy` and start the dev server:
+```bash
+BUNDLE=legacy yarn start
+```
+You can also build both bundles to serve the legacy and modern browsers simultaneously:
+```bash
+yarn start
+```
+
+### Building to production
+
+This command will build both the `client-library` and `sv` in production mode, with both bundles, with everything minimized:
+```bash
+rm -rf dist && yarn build
+```
+
+# Development
+
+## Git submodules: Handsontable
+
+This repo contains one dependency (Handsontable) as a Git submodule.
+
+Working with dependencies using a submodule gives several advantages. We can:
+
+- try changes directly in the dependency code if needed
+- use a branch of the dependency without waiting for a versioned release
+- we don't have to rely on the dependency builds at all, because we include the dependency into the SpreadsheetViewer build chain
+- tools like `nodemon` observe changes made in `submodule/*` and rebuild SpreadsheetViewer on any such change
+- tree-shake the dependency to contain only the features that are needed in SpreadsheetViewer, to the extent allowed by the architecture of the dependency
+
+A quick recap on how to use submodules:
+
+- read: `yarn prepare:submodules` automatically retrieves the content of the submodule repos
+- write: you can update the content of the submodule in such way:
+
+```
+cd submodules/handsontable
+git checkout 6f551e1 # check out the desired Handsontable commit. If needed, you can commit and push to Handsontable repo
+cd ../.. # return to the parent (SpreadsheetViewer) repo
+git add submodules
+git commit -m "bump Handsontable a version 6f551e1 that includes ..."
+```
