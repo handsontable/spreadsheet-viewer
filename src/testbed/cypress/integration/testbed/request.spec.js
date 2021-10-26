@@ -68,7 +68,7 @@ context('Theme', () => {
   });
 
   it('should begin in the dark theme by if requested using themeStyleshet=dark', () => {
-    cy.uploadWorkbookInDemo(FILE_GENERAL, '?themeStylesheet=dark');
+    cy.uploadWorkbookInDemo(FILE_GENERAL, '#themeStylesheet=dark');
 
     cy.getIntoIFrameInDemo(() => {
       cy.get(appContainerSelector).should('have.css', 'background-color', darkBackground);
@@ -76,7 +76,7 @@ context('Theme', () => {
   });
 
   it('should begin in the dark theme by if requested using themeStyleshet with unknown value', () => {
-    cy.uploadWorkbookInDemo(FILE_GENERAL, '?themeStylesheet=randomString1234');
+    cy.uploadWorkbookInDemo(FILE_GENERAL, '#themeStylesheet=randomString1234');
 
     cy.getIntoIFrameInDemo(() => {
       cy.get(appContainerSelector).should('have.css', 'background-color', darkBackground);
@@ -109,7 +109,7 @@ context('Feature flags forwarding', () => {
   });
 
   it('WHEN flags exist THEN value should be forwarded into sv', () => {
-    cy.uploadWorkbookInDemo(FILE_GENERAL, '?flags=any_flag,flag2');
+    cy.uploadWorkbookInDemo(FILE_GENERAL, '#flags=any_flag,flag2');
     cy.get(DEMO_IFRAME_SELECTOR).should('have.attr', 'src')
       .and('match', /[?&]flags=any_flag,flag2(&|$)/);
   });
