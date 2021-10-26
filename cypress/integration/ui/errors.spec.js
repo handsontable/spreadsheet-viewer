@@ -67,7 +67,7 @@ context('Errors', () => {
     cy.matchUISnapshot();
   });
 
-  it('FILE_LOADING_NETWORK_ERROR', () => {
+  xit('FILE_LOADING_NETWORK_ERROR', () => {
     cy.visit('/index.html?workbookUrl=http://localhost:5001');
     cy.matchErrorCode('FILE_LOADING_NETWORK_ERROR');
     cy.matchUISnapshot();

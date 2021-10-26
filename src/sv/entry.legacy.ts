@@ -19,6 +19,7 @@ import 'core-js/fn/string/includes';
 import 'core-js/fn/string/starts-with';
 import 'core-js/fn/number/is-integer';
 import 'core-js/fn/number/is-nan';
+import '@webcomponents/url';
 
 import ParseWorker from './parse-worker/legacy.worker';
 

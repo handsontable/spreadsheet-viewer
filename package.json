@@ -58,6 +58,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/selenium-webdriver": "^4.0.9",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@webcomponents/url": "^0.7.8",
     "abortcontroller-polyfill": "^1.5.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-import": "^1.13.1",

@@ -5,6 +5,7 @@
 import { useReducer, useEffect, useCallback } from 'react';
 
 import { ParsedData, fixupData } from './utils/FileService';
+import { isDataUrl } from './filetype';
 
 import type { ParseWorker, ParseWorkerOutput } from './parse-worker';
 import { startPerfMarker, MARKERS, endPerfMarker } from '../../perf/markers';
@@ -14,13 +15,7 @@ import * as errors from './error';
 import * as sheetHistory from './sheet-history';
 import type { SvId } from './sv-id';
 
-const supportedFileFormats = ['xlsx', 'xlsm', 'xltx', 'xltm', 'xlsb', 'xls'];
-
-const lastElementOfArray = <T>(array: T[]): T | undefined => (array.length > 0 ? array[array.length - 1] : undefined);
-const getExtensionFromFilename = (filename: string): string | undefined => {
-  const split = filename.split('.');
-  return split.length > 1 ? lastElementOfArray(split) : undefined;
-};
+const defaultCorsProxyUrl = 'https://sv-cors.warpech.workers.dev/corsproxy/?target=';
 
 export type WorkbookInput = {
   type: 'arraybuffer'
@@ -361,6 +356,13 @@ export const useWorkbook = (props: UseWorkbookProps) => {
    */
   const loadWorkbook = useCallback((input: WorkbookInput, sheet: number = 0) => {
     const workbookId = Math.random().toString(32).substring(2);
+
+    if (input.type === 'url' && !isDataUrl(input.url)) {
+      const url = new URL(input.url, window.location.href);
+      if (url.origin !== window.location.origin) {
+        input.url = `${defaultCorsProxyUrl}${encodeURIComponent(input.url)}`;
+      }
+    }
 
     dispatch({
       type: 'initialize',

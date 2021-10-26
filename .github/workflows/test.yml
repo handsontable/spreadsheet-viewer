@@ -510,3 +510,32 @@ jobs:
         with:
           name: CSV performance reports (develop and current)
           path: perf/reports/generated/*.csv
+
+  cors-proxy:
+    name: Cors-proxy
+    timeout-minutes: 2
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
+        with:
+          node-version: 14
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
+
+      - name: Retrieve cached dependencies (cors-proxy)
+        id: cache-cors-proxy-deps
+        uses: actions/cache@5ca27f25cb3a0babe750cad7e4fddd3e55f29e9a # https://github.com/actions/cache/releases/tag/v2.1.1
+        with:
+          path: src/cors-proxy/node_modules
+          key: node_modules-${{ runner.os }}-${{ hashFiles('src/cors-proxy/yarn.lock') }}
+
+      - name: Build
+        run: |
+          cd src/cors-proxy
+          yarn 
+
+      - name: Test
+        run: |
+          cd src/cors-proxy
+          yarn test
