@@ -47,4 +47,4 @@ Location: `src/sv`
 
 ### Communication diagram
 
-![](./img/communication.png)
+![communication](/docs/next/img/communication.png)

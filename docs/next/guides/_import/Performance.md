@@ -68,7 +68,7 @@ Same as `yarn perf`, but at the end, it saves unaggregated results to `/perf/rep
 
 The CSV file can be used to visualize all readings on a scatter plot in Excel:
 
-![img](./img/performance.png)
+![performance](/docs/next/img/performance.png)
 
 ```
 yarn perf --compare=file.csv

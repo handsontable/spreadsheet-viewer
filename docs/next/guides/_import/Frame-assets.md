@@ -7,7 +7,7 @@ Throughout this documentation, we use the term "frame assets". By this, we mean 
 
 The following screenshot shows the list of all frame assets contents as of the version 1.0.0:
 
-![img](./img/frame_assets.png)
+![frame assets](/docs/next/img/frame_assets.png)
 
 Among these files, `index.html` is worth noting as the **frame assets entry point**. This file is important because it is an entry point of all our APIs:
 
@@ -17,7 +17,7 @@ Among these files, `index.html` is worth noting as the **frame assets entry poin
 
 You can recognize this entry point `index.html` by the fact that when accessed directly, it displays a rather dull "Hello, developer!" message as presented by the below screenshot. Don't worry, this message is not visible when any of the above APIs is used.
 
-![img](./img/frame_assets_index_html.png)
+![frame assets index.html](/docs/next/img/frame_assets_index_html.png)
 
 Other files include CSS (stylesheets for the presentation layer), JS (scripts for the parser, interpreter, and presentation layers), WOFF and WOFF2 (web fonts).
 
