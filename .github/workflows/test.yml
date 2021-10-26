@@ -25,10 +25,10 @@ jobs:
     timeout-minutes: 6
     runs-on: ubuntu-18.04
     steps:
-      - name: Use Node 12
-        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
         with:
-          node-version: 12
+          node-version: 14
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
         with:
@@ -91,10 +91,10 @@ jobs:
     timeout-minutes: 2
     runs-on: ubuntu-18.04
     steps:
-      - name: Use Node 12
-        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
         with:
-          node-version: 12
+          node-version: 14
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
 
@@ -113,10 +113,10 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-      - name: Use Node 12
-        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
         with:
-          node-version: 12
+          node-version: 14
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
 
@@ -142,10 +142,10 @@ jobs:
         spec: ${{fromJson(needs.prepare-matrix.outputs.specs)}}
 
     steps:
-      - name: Use Node 12
-        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
         with:
-          node-version: 12
+          node-version: 14
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
 
@@ -221,10 +221,10 @@ jobs:
       TESTING_BOT_SECRET: ${{ secrets.TESTING_BOT_SECRET }}
 
     steps:
-      - name: Use Node 12
-        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
         with:
-          node-version: 12
+          node-version: 14
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
 
@@ -275,10 +275,10 @@ jobs:
       SELENIUM_IMAGE: selenium/standalone-chrome:4.0.0-alpha-7-prerelease-20200921
 
     steps:
-      - name: Use Node 12
-        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
         with:
-          node-version: 12
+          node-version: 14
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
 
@@ -355,10 +355,10 @@ jobs:
     needs: build
 
     steps:
-      - name: Use Node 12
-        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
         with:
-          node-version: 12
+          node-version: 14
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
 
@@ -400,10 +400,10 @@ jobs:
     needs: build
     runs-on: ubuntu-18.04
     steps:
-      - name: Use Node 12
-        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Checkout branch
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
@@ -436,10 +436,10 @@ jobs:
     timeout-minutes: 90
     runs-on: ubuntu-18.04
     steps:
-      - name: Use Node 12
-        uses: actions/setup-node@56899e050abffc08c2b3b61f3ec6a79a9dc3223d # v1.4.4
+      - name: Use Node 14
+        uses: actions/setup-node@270253e841af726300e85d718a5f606959b2903c # v2.4.1
         with:
-          node-version: 12
+          node-version: 14
 
       - name: (develop) checkout
         uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # https://github.com/actions/checkout/releases/tag/v2.3.4
