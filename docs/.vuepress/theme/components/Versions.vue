@@ -31,28 +31,6 @@ export default {
       }
 
       return `/docs/${version}${pathWithoutVersion}`;
-    },
-    getLegacyVersions() {
-      return [
-        '8.4.0',
-        '8.3.2',
-        '8.2.0',
-        '8.1.0',
-        '8.0.0',
-        '7.4.2',
-        '7.3.0',
-        '7.2.2',
-        '7.1.1',
-        '7.0.3',
-        '6.2.2',
-        '6.1.1',
-        '6.0.1',
-        '5.0.2',
-        '4.0.0',
-      ].map(version => ({
-        text: version.replace(/\.\d+$/, ''),
-        link: `https://handsontable.com/docs/${version}/`
-      }));
     }
   },
   computed: {
@@ -66,8 +44,7 @@ export default {
               link: this.getLink(v),
               target: '_self',
               isHtmlLink: true
-            })),
-            ...this.getLegacyVersions()
+            }))
           ]
       };
     }
