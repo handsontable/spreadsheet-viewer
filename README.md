@@ -1,6 +1,16 @@
-# Spreadsheet Viewer
+<div align="center">
+  <br><br>
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/handsontable/handsontable/develop/resources/handsontable-logo-black.svg"/>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/handsontable/handsontable/develop/resources/handsontable-logo-white.svg"/>
+    <img width="360" alt="Logo of Handsontable DataGrid" src="https://raw.githubusercontent.com/handsontable/handsontable/develop/resources/handsontable-logo-black.svg"/>
+  </picture>
+  <br><br>
+  <h3>Spreadsheet Viewer is a software component that lets your users preview Excel files without leaving your web app.</h3>
 
-### Spreadsheet Viewer is a software component that lets your users preview Excel files without leaving your web app.
+  <a href="https://handsontable.com">Website</a> &nbsp;&nbsp;—&nbsp;&nbsp; <a href="https://handsontable.com/spreadsheet-viewer">Live demo</a> &nbsp;&nbsp;—&nbsp;&nbsp; <a href="https://github.com/handsontable/spreadsheet-viewer/wiki/Installation">Documentation</a> &nbsp;&nbsp;—&nbsp;&nbsp; <a href="https://forum.handsontable.com/">Community</a>
+</div>
+
 
 ## [✨ Try the live demo](https://handsontable.com/spreadsheet-viewer)
 
